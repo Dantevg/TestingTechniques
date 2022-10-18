@@ -20,9 +20,9 @@ def server(host = "127.0.0.1", port=65432):
 def client(
     host = "127.0.0.1", 
     port=65432, 
-    messages=1000, 
+    messages=100, 
     message_size=1024,
-    update_interval=100):
+    update_interval=10):
 
     errors = 0
     start_time = time.time()
@@ -33,7 +33,7 @@ def client(
 
         for m in range(messages):
             if m % update_interval == 0:
-                print(f"Client: {m} messages sent")
+                print(f"client: {m} messages sent")
             message = os.urandom(message_size)
             s.sendall(message)
             data = s.recv(message_size)
@@ -46,7 +46,14 @@ def client(
         print(f"client: duration: {time_difference:.2f} seconds")
         print(f"client: errors: {errors}")
 
-if __name__ == "__main__":
-    Thread(target=server).start()
-    Thread(target=client).start()
+def run_server_client(server_args = None, client_args = None):
+    server_thread = Thread(target=server, kwargs=server_args)
+    client_thread = Thread(target=client, kwargs=client_args)
+    server_thread.start()
+    client_thread.start()
+    server_thread.join()
+    client_thread.join()
     print("done")
+
+if __name__ == "__main__":
+    run_server_client()
