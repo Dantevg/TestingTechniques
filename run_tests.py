@@ -3,7 +3,7 @@ import sys
 import time
 import server_client
 
-slow_tests = ["delay", "jittered delay", "packet drops & low throughput"]
+slow_tests = ["delay", "jittered delay", "packet drops & low throughput", "jittered delay & low throughput"]
 
 def get_commands(device):
 	test_commands = {
@@ -15,6 +15,7 @@ def get_commands(device):
 		"packet reordering": f"sudo tc qdisc add dev {device} root netem delay 10ms reorder 25% 50%",
 		"packet duplication": f"sudo tc qdisc add dev {device} root netem duplicate 5%",
 		"bitflips": f"sudo tc qdisc add dev {device} root netem corrupt 10%",
+		"jittered delay & low throughput": f"sudo tc qdisc add dev {device} root netem delay 200ms 75ms rate 256kbit latency 400ms",
 		"packet reordering & packet duplication": f"sudo tc qdisc add dev {device} root netem delay 10ms reorder 25% 50% duplicate 5%",
 		"packet drops & low throughput": f"sudo tc qdisc add dev {device} root netem loss 10% rate 1mbit latency 200ms",
 		"packet duplication & bitflips": f"sudo tc qdisc add dev {device} root netem duplicate 5% corrupt 10%",
