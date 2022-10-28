@@ -18,6 +18,7 @@ def server(host = "127.0.0.1", port=65432):
                 conn.sendall(data)
 
 def client(
+    queue,
     host = "127.0.0.1", 
     port=65432, 
     messages=100, 
@@ -45,15 +46,18 @@ def client(
         time_difference = (time.time() - start_time)
         print(f"client: duration: {time_difference:.2f} seconds")
         print(f"client: errors: {errors}")
+        queue.put(errors == 0)
 
 def run_server_client(server_args = None, client_args = None):
-    server_thread = Thread(target=server, kwargs=server_args)
+    queue = queue.Queue()
+    server_thread = Thread(target=server, args=(queue), kwargs=server_args)
     client_thread = Thread(target=client, kwargs=client_args)
     server_thread.start()
     client_thread.start()
     server_thread.join()
     client_thread.join()
     print("done")
+    return queue.get()
 
 if __name__ == "__main__":
     run_server_client()
