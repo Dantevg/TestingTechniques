@@ -34,7 +34,7 @@ def exec_command(command):
 
 def run_test(desc, commands):
 	(test_commands, reset_command) = commands
-	print(f"\n===== test '{desc}'")
+	print(f"\n━━━━━ test '{desc}'")
 	if exec_command(test_commands[desc]) != 0:
 		print("Failed to execute network tampering command")
 		exec_command(reset_command)
