@@ -43,6 +43,7 @@ def run_test(desc, commands):
 	return n_errors == 0
 
 def print_results(statuses):
+	print()
 	print("Test report")
 	print("===========")
 	for desc in statuses:
@@ -70,7 +71,6 @@ def main():
 		exec_command(reset_command)
 		for desc in test_commands:
 			test_statuses[desc] = run_test(desc, (test_commands, reset_command))
-			time.sleep(1)
 	except KeyboardInterrupt:
 		exec_command(reset_command)
 		sys.exit(0)
