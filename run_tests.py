@@ -1,7 +1,10 @@
 import os
 import sys
-import time
 import server_client
+
+ANSI_RESET = "\x1b[0m"
+ANSI_RED = "\x1b[31m"
+ANSI_GREEN = "\x1b[32m"
 
 slow_tests = ["delay", "jittered delay", "packet drops & low throughput", "jittered delay & low throughput"]
 
@@ -48,9 +51,9 @@ def print_results(statuses):
 	print("===========")
 	for desc in statuses:
 		if statuses[desc]:
-			print("✔ " + desc)
+			print(f"{ANSI_GREEN}✓ {desc}{ANSI_RESET}")
 		else:
-			print("❌ " + desc)
+			print(f"{ANSI_RED}✘ {desc}{ANSI_RESET}")
 	
 	n_passed = len([x for x in statuses if statuses[x]])
 	print(f"{str(n_passed)} tests passed, {len(statuses) - n_passed} failed.")
