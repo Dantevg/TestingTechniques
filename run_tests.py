@@ -55,12 +55,16 @@ def print_results(statuses):
 		if results != None and results["errors"] == 0:
 			print(f"┃ {ANSI_GREEN}✓ {desc}{ANSI_RESET} in {ANSI_BLUE}{results['time']:.2f}s{ANSI_RESET}")
 		elif results != None:
-			print(f"┃ {ANSI_RED}✘ {desc}{ANSI_RESET} in {ANSI_BLUE}{results['time']:.2f}s{ANSI_RESET}")
+			print(f"┃ {ANSI_RED}✘ {desc} {ANSI_BLUE}{results['errors']}{ANSI_RESET} errors in {ANSI_BLUE}{results['time']:.2f}s{ANSI_RESET}")
 		else:
 			print(f"┃ {ANSI_RED}✘ {desc}{ANSI_RESET} errored")
 	
 	n_passed = len([desc for desc in statuses if statuses[desc] != None and statuses[desc]["errors"] == 0])
 	print(f"┃ {str(n_passed)} tests passed, {len(statuses) - n_passed} failed.")
+	if n_passed == len(statuses):
+		print(f"┃ Final verdict: {ANSI_GREEN}PASSED{ANSI_RESET}")
+	else:
+		print(f"┃ Final verdict: {ANSI_RED}FAILED{ANSI_RESET}")
 
 def main():
 	if len(sys.argv) != 2:
