@@ -34,17 +34,18 @@ def client(
         print(f"client: connected to {host}:{port}")
 
         for m in range(messages):
-            if m % update_interval == 0:
-                print(f"client: {m} messages sent")
+            if m % update_interval == 0 and m > 0:
+                percentage = m / update_interval
+                print(f"client: {'█'*int(percentage)}{'░'*int(messages/update_interval-percentage)} {m} / {messages} messages", end="\r")
             message = os.urandom(message_size)
             s.sendall(message)
             data = s.recv(message_size)
             if data != message:
                 errors += 1
 
-        print(f"client: messages sent: {messages}")
-        print(f"client: message size: {message_size}")
         time_difference = (time.time() - start_time)
+        print(f"client: {'█'*int(messages/update_interval)} {messages} / {messages} messages")
+        print(f"client: message size: {message_size}")
         print(f"client: duration: {time_difference:.2f} seconds")
         print(f"client: errors: {errors}")
         q.put({
