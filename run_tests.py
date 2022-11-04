@@ -5,6 +5,7 @@ import server_client
 ANSI_RESET = "\x1b[0m"
 ANSI_RED = "\x1b[31m"
 ANSI_GREEN = "\x1b[32m"
+ANSI_BLUE = "\x1b[34m"
 
 slow_tests = ["delay", "jittered delay", "packet drops & low throughput", "jittered delay & low throughput"]
 
@@ -39,24 +40,27 @@ def run_test(desc, commands):
 		exec_command(reset_command)
 		return
 	if desc in slow_tests:
-		n_errors = server_client.run_server_client(client_args={"messages": 10, "update_interval": 1})
+		test_results = server_client.run_server_client(client_args={"messages": 10, "update_interval": 1})
 	else:
-		n_errors = server_client.run_server_client()
+		test_results = server_client.run_server_client()
 	exec_command(reset_command)
-	return n_errors == 0
+	return test_results
 
 def print_results(statuses):
 	print()
-	print("Test report")
-	print("===========")
+	print("TEST REPORT")
+	print("┏━━━━━━━━━━")
 	for desc in statuses:
-		if statuses[desc]:
-			print(f"{ANSI_GREEN}✓ {desc}{ANSI_RESET}")
+		results = statuses[desc]
+		if results != None and results["errors"] == 0:
+			print(f"┃ {ANSI_GREEN}✓ {desc}{ANSI_RESET} in {ANSI_BLUE}{results['time']:.2f}s{ANSI_RESET}")
+		elif results != None:
+			print(f"┃ {ANSI_RED}✘ {desc}{ANSI_RESET} in {ANSI_BLUE}{results['time']:.2f}s{ANSI_RESET}")
 		else:
-			print(f"{ANSI_RED}✘ {desc}{ANSI_RESET}")
+			print(f"┃ {ANSI_RED}✘ {desc}{ANSI_RESET} errored")
 	
-	n_passed = len([x for x in statuses if statuses[x]])
-	print(f"{str(n_passed)} tests passed, {len(statuses) - n_passed} failed.")
+	n_passed = len([desc for desc in statuses if statuses[desc] != None and statuses[desc]["errors"] == 0])
+	print(f"┃ {str(n_passed)} tests passed, {len(statuses) - n_passed} failed.")
 
 def main():
 	if len(sys.argv) != 2:
