@@ -46,7 +46,7 @@ def client(
         time_difference = (time.time() - start_time)
         print(f"client: duration: {time_difference:.2f} seconds")
         print(f"client: errors: {errors}")
-        queue.put(errors == 0)
+        queue.put(errors)
 
 def run_server_client(server_args = None, client_args = None):
     queue = queue.Queue()

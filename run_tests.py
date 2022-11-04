@@ -36,10 +36,23 @@ def run_test(desc, commands):
 		exec_command(reset_command)
 		return
 	if desc in slow_tests:
-		server_client.run_server_client(client_args={"messages": 10, "update_interval": 1})
+		n_errors = server_client.run_server_client(client_args={"messages": 10, "update_interval": 1})
 	else:
-		server_client.run_server_client()
+		n_errors = server_client.run_server_client()
 	exec_command(reset_command)
+	return n_errors == 0
+
+def print_results(statuses):
+	print("Test report")
+	print("===========")
+	for desc in statuses:
+		if statuses[desc]:
+			print("✔ " + desc)
+		else:
+			print("❌ " + desc)
+	
+	n_passed = len([x for x in statuses if statuses[x]])
+	print(f"{str(n_passed)} tests passed, {len(statuses) - n_passed} failed.")
 
 def main():
 	if len(sys.argv) != 2:
@@ -52,14 +65,17 @@ def main():
 		print("tc command needs root, run again with sudo")
 		return
 	
+	test_statuses = {}
 	try:
 		exec_command(reset_command)
 		for desc in test_commands:
-			run_test(desc, (test_commands, reset_command))
+			test_statuses[desc] = run_test(desc, (test_commands, reset_command))
 			time.sleep(1)
 	except KeyboardInterrupt:
 		exec_command(reset_command)
 		sys.exit(0)
+	
+	print_results(test_statuses)
 
 if __name__ == "__main__":
 	main()
