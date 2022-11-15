@@ -1,62 +1,12 @@
 import os
 import sys
 import server_client
-import random
+import tests
 
 ANSI_RESET = "\x1b[0m"
 ANSI_RED = "\x1b[31m"
 ANSI_GREEN = "\x1b[32m"
 ANSI_BLUE = "\x1b[34m"
-
-slow_tests = [
-    "delay",
-    "random delay",
-    "jittered delay",
-    "random jittered delay",
-    "packet drops & low throughput",
-    "random packet drops & low throughput",
-    "jittered delay & low throughput",
-    "random jittered delay & low throughput"
-]
-
-
-def get_commands(device):
-	delay = random.randint(50, 300)
-	delay_lower = int(random.uniform(0.2, 0.8) * delay)
-	percentage_mid = random.randint(35, 65)
-	percentage_low = random.randint(5, 30)
-	throughput = random.randint(1, 10) * 128
-	test_commands = {
-		"baseline": "",
-
-		"delay": f"sudo tc qdisc add dev {device} root netem delay 200ms",
-		"jittered delay": f"sudo tc qdisc add dev {device} root netem delay 200ms 75ms",
-		"packet drops": f"sudo tc qdisc add dev {device} root netem loss 20%",
-		"low throughput": f"sudo tc qdisc add dev {device} root tbf rate 256kbit burst 16kbit latency 400ms",
-		"packet reordering": f"sudo tc qdisc add dev {device} root netem delay 10ms reorder 25% 50%",
-		"packet duplication": f"sudo tc qdisc add dev {device} root netem duplicate 5%",
-		"bitflips": f"sudo tc qdisc add dev {device} root netem corrupt 10%",
-		"jittered delay & low throughput": f"sudo tc qdisc add dev {device} root netem delay 200ms 75ms rate 256kbit latency 400ms",
-		"packet reordering & packet duplication": f"sudo tc qdisc add dev {device} root netem delay 10ms reorder 25% 50% duplicate 5%",
-		"packet drops & low throughput": f"sudo tc qdisc add dev {device} root netem loss 10% rate 1mbit latency 200ms",
-		"packet duplication & bitflips": f"sudo tc qdisc add dev {device} root netem duplicate 5% corrupt 10%",
-		
-		"random delay": f"sudo tc qdisc add dev {device} root netem delay {delay}ms",
-		"random jittered delay": f"sudo tc qdisc add dev {device} root netem delay {delay}ms {delay_lower}ms",
-		"random packet drops": f"sudo tc qdisc add dev {device} root netem loss {percentage_low}%",
-		"random low throughput": f"sudo tc qdisc add dev {device} root tbf rate {throughput}kbit burst 16kbit latency {delay}ms",
-		"random packet reordering": f"sudo tc qdisc add dev {device} root netem delay 10ms reorder {percentage_low}% {percentage_mid}%",
-		"random packet duplication": f"sudo tc qdisc add dev {device} root netem duplicate {percentage_low}%",
-		"random bitflips": f"sudo tc qdisc add dev {device} root netem corrupt {percentage_low}%",
-		"random jittered delay & low throughput": f"sudo tc qdisc add dev {device} root netem delay {delay}ms {delay_lower}ms rate {throughput}kbit latency {2 * delay}ms",
-		"random packet reordering & packet duplication": f"sudo tc qdisc add dev {device} root netem delay 10ms reorder {percentage_low}% {percentage_mid}% duplicate {percentage_low}%",
-		"random packet drops & low throughput": f"sudo tc qdisc add dev {device} root netem loss {percentage_low}% rate {throughput}kbit latency {delay}ms",
-		"random packet duplication & bitflips": f"sudo tc qdisc add dev {device} root netem duplicate {percentage_low}% corrupt {int(random.uniform(1, 2) * percentage_low)}%",
-	}
-
-	reset_command = f"sudo tc qdisc del dev {device} root"
-	return (test_commands, reset_command)
-
 
 def exec_command(command):
 	print(f"test: running command '{command}'")
@@ -70,7 +20,7 @@ def run_test(desc, commands):
 		print("Failed to execute network tampering command")
 		exec_command(reset_command)
 		return
-	if desc in slow_tests:
+	if tests.is_slow(desc):
 		test_results = server_client.run_server_client(client_args={"messages": 10, "update_interval": 1})
 	else:
 		test_results = server_client.run_server_client()
@@ -102,7 +52,7 @@ def main():
 		print("Expecting network device as argument, probably 'lo' (find using 'ip address')")
 		return
 
-	(test_commands, reset_command) = get_commands(sys.argv[1])
+	(test_commands, reset_command) = tests.get_commands(sys.argv[1])
 
 	if os.geteuid() != 0:
 		print("tc command needs root, run again with sudo")
