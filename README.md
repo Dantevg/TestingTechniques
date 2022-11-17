@@ -1,5 +1,5 @@
 # Testing Techniques test tool
-This test tool automatically runs all tests defined in [`tests.py`](./tests.py).
+This test tool automatically runs all tests defined in [`src/tests.py`](src/tests.py).
 It gathers the information about test pass/fail status and how long each test
 took, and displays it in a summary.
 The test cases also contain randomised tests, where the arguments to the network
