@@ -11,6 +11,7 @@ This is done for those tests that take a much longer time, i.e. with delay or
 packet drops.
 
 ## Usage
+Important: the tests only work on Linux, because they make use of the `tc` command.
 1. **Clone this repository.**  
     `git clone git@github.com:Dantevg/TestingTechniques.git`
 2. **Run the tests.** Make sure nothing else is using the localhost network.
