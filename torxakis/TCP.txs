@@ -1,29 +1,31 @@
+-- TODO: interval constraint on parameters
+-- TODO: constraints on compound tests
 TYPEDEF Tampering ::=
 	Delay { delay :: Int }
-	| JitteredDelay { delay :: Int ; jitter :: Int } -- TODO: interval constraint on parameters
+	| JitteredDelay { delay :: Int ; jitter :: Int }
 	| PacketDrops { loss :: Int }
 	| LowThroughput { rate :: Int ; burst :: Int ; latency :: Int }
 	| Reordering { delay :: Int ; reorder1 :: Int ; reorder2 :: Int } -- TODO: give better names to reorder1 and reorder2
-    | Duplication { duplicate :: Int } 
-    | Bitflips { corrupt :: Int }
-    | -- TODO: let torxakis generate the compound tests?
-    |
-    |
+	| Duplication { duplicate :: Int } 
+	| Bitflips { corrupt :: Int }
+	| Pair { first :: Tampering ; second :: Tampering }
 ENDDEF
 
-TYPEDEF TestConfig ::=
-	-- TODO: fill in
-    -- 
+-- A packet is encoded as a string for now
+TYPEDEF PacketList ::=
+	Packet_nil
+	| Packet_cons { head :: String ; tail :: PacketList }
 ENDDEF
 
 CHANDEF Channels ::=
-	In  :: TestConfig ;
-	Out :: Int
+	TamperingIn :: Tampering ;
+	PacketsIn :: PacketList ;
+	PacketsOut :: Int
 ENDDEF
 
 MODELDEF TCP ::=
-	CHAN IN  In
-	CHAN OUT Out
+	CHAN IN  PacketsIn, TamperingIn
+	CHAN OUT PacketsOut
 	
 	BEHAVIOUR ???
 ENDDEF
@@ -31,11 +33,14 @@ ENDDEF
 CNECTDEF Sut ::=
 	CLIENTSOCK
 	
-	CHAN OUT In HOST "localhost" PORT 7890
-	ENCODE In ? x -> ! x
+	CHAN OUT PacketsIn HOST "localhost" PORT 7890
+	ENCODE PacketsIn ? x -> ! x
 	
-	CHAN IN Out HOST "localhost" PORT 7890
-	DECODE Out ! x <- ? x
+	CHAN OUT TamperingIn HOST "localhost" PORT 7890
+	ENCODE TamperingIn ? x -> ! x
+	
+	CHAN IN PacketsOut HOST "localhost" PORT 7890
+	DECODE PacketsOut ! x <- ? x
 ENDDEF
 
 
