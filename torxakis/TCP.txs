@@ -1,0 +1,43 @@
+TYPEDEF Tampering ::=
+	Delay { delay :: Int }
+	| JitteredDelay { delay :: Int ; jitter :: Int } -- TODO: interval constraint on parameters
+	| PacketDrops { loss :: Int }
+	| LowThroughput { rate :: Int ; burst :: Int ; latency :: Int }
+	| Reordering { delay :: Int ; reorder1 :: Int ; reorder2 :: Int } -- TODO: give better names to reorder1 and reorder2
+    | Duplication { duplicate :: Int } 
+    | Bitflips { corrupt :: Int }
+    | -- TODO: let torxakis generate the compound tests?
+    |
+    |
+ENDDEF
+
+TYPEDEF TestConfig ::=
+	-- TODO: fill in
+    -- 
+ENDDEF
+
+CHANDEF Channels ::=
+	In  :: TestConfig ;
+	Out :: Int
+ENDDEF
+
+MODELDEF TCP ::=
+	CHAN IN  In
+	CHAN OUT Out
+	
+	BEHAVIOUR ???
+ENDDEF
+
+CNECTDEF Sut ::=
+	CLIENTSOCK
+	
+	CHAN OUT In HOST "localhost" PORT 7890
+	ENCODE In ? x -> ! x
+	
+	CHAN IN Out HOST "localhost" PORT 7890
+	DECODE Out ! x <- ? x
+ENDDEF
+
+
+-- sturen hoeveel packets, welke test het is, input parameters voor deze test
+-- terugsturen: amount of errors
