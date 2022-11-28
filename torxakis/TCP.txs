@@ -1,5 +1,3 @@
--- TODO: interval constraint on parameters
--- TODO: constraints on compound tests
 -- Delays are in milliseconds, percentages are 0-100
 TYPEDEF Tampering ::=
 	Delay { delay :: Int }
@@ -9,7 +7,10 @@ TYPEDEF Tampering ::=
 	| Reordering { delay :: Int ; reorder1 :: Int ; reorder2 :: Int } -- TODO: give better names to reorder1 and reorder2
 	| Duplication { duplicate :: Int } 
 	| Bitflips { corrupt :: Int }
-	| Pair { first :: Tampering ; second :: Tampering }
+ENDDEF
+
+TYPEDEF TamperingPair ::=
+	TamperingPair { first :: Tampering ; second :: Tampering }
 ENDDEF
 
 -- A packet is encoded as a string for now
@@ -26,21 +27,21 @@ FUNCDEF lengthPacketList (pl :: PacketList) :: Int ::=
 ENDDEF
 
 FUNCDEF isValid_Tampering (t :: Tampering) :: Bool :=
-	IF isPair(t) THEN
-		isValid_Tampering(first(t)) /\ isValid_Tampering(second(t))
-		/\ !(isDelay(first(t)) & isJitteredDelay(second(t)))
-		/\ !(isJitteredDelay(first(t)) & isDelay(second(t)))
-		-- TODO: continue the exclusive tests
-	ELSE
-		IF isDelay(t) THEN delay(t) > 0 /\ delay(t) < 500
-		ELSE IF isJitteredDelay(t) THEN {- TODO -}
-		ELSE IF isPacketDrops(t) THEN {- TODO -}
-		ELSE IF isLowThroughput(t) THEN {- TODO -}
-		ELSE IF isReordering(t) THEN {- TODO -}
-		ELSE IF isDuplication(t) THEN {- TODO -}
-		ELSE IF isBitflips(t) THEN {- TODO -}
-		FI
+	IF isDelay(t) THEN delay(t) > 0 /\ delay(t) < 500
+	ELSE IF isJitteredDelay(t) THEN delay(t) > 0 /\ jitter(t) > 0 {- TODO -}
+	ELSE IF isPacketDrops(t) THEN loss(t) > 0 {- TODO -}
+	ELSE IF isLowThroughput(t) THEN rate(t) > 0 /\ burst(t) > 0 /\ latency(t) > 0 {- TODO -}
+	ELSE IF isReordering(t) THEN delay(t) > 0 /\ reorder1(t) > 0 /\ reorder2(t) > 0 {- TODO -}
+	ELSE IF isDuplication(t) THEN duplicate(t) > 0 {- TODO -}
+	ELSE IF isBitflips(t) THEN corrupt(t) > 0 {- TODO -}
 	FI
+ENDDEF
+
+FUNCDEF isValid_TamperingPair (tp :: TamperingPair) :: Bool :=
+	isValid_Tampering(first(t)) /\ isValid_Tampering(second(t))
+	/\ !(isDelay(first(t)) /\ isJitteredDelay(second(t)))
+	/\ !(isJitteredDelay(first(t)) /\ isDelay(second(t)))
+	-- TODO: continue the exclusive tests
 ENDDEF
 
 CHANDEF Channels ::=
