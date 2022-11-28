@@ -1,5 +1,6 @@
 -- TODO: interval constraint on parameters
 -- TODO: constraints on compound tests
+-- Delays are in milliseconds, percentages are 0-100
 TYPEDEF Tampering ::=
 	Delay { delay :: Int }
 	| JitteredDelay { delay :: Int ; jitter :: Int }
@@ -15,6 +16,31 @@ ENDDEF
 TYPEDEF PacketList ::=
 	Packet_nil
 	| Packet_cons { head :: String ; tail :: PacketList }
+ENDDEF
+
+FUNCDEF lengthPacketList (pl :: PacketList) :: Int ::=
+	IF isPacket_nil(pl)
+	THEN 0
+	ELSE lengthPacketList(tail(pl)) + 1
+	FI
+ENDDEF
+
+FUNCDEF isValid_Tampering (t :: Tampering) :: Bool :=
+	IF isPair(t) THEN
+		isValid_Tampering(first(t)) /\ isValid_Tampering(second(t))
+		/\ !(isDelay(first(t)) & isJitteredDelay(second(t)))
+		/\ !(isJitteredDelay(first(t)) & isDelay(second(t)))
+		-- TODO: continue the exclusive tests
+	ELSE
+		IF isDelay(t) THEN delay(t) > 0 /\ delay(t) < 500
+		ELSE IF isJitteredDelay(t) THEN {- TODO -}
+		ELSE IF isPacketDrops(t) THEN {- TODO -}
+		ELSE IF isLowThroughput(t) THEN {- TODO -}
+		ELSE IF isReordering(t) THEN {- TODO -}
+		ELSE IF isDuplication(t) THEN {- TODO -}
+		ELSE IF isBitflips(t) THEN {- TODO -}
+		FI
+	FI
 ENDDEF
 
 CHANDEF Channels ::=
@@ -36,7 +62,7 @@ CNECTDEF Sut ::=
 	CHAN OUT PacketsIn HOST "localhost" PORT 7890
 	ENCODE PacketsIn ? x -> ! x
 	
-	CHAN OUT TamperingIn HOST "localhost" PORT 7890
+	CHAN OUT TamperingIn HOST "localhost" PORT 7891
 	ENCODE TamperingIn ? x -> ! x
 	
 	CHAN IN PacketsOut HOST "localhost" PORT 7890
