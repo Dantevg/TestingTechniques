@@ -1,10 +1,10 @@
 -- Delays are in milliseconds, percentages are 0-100
 TYPEDEF Tampering ::=
 	Delay { delay :: Int }
-	| JitteredDelay { delay :: Int ; jitter :: Int }
+	| JitteredDelay { jitterDelay :: Int ; jitter :: Int }
 	| PacketDrops { loss :: Int }
 	| LowThroughput { rate :: Int ; burst :: Int ; latency :: Int }
-	| Reordering { delay :: Int ; reorder1 :: Int ; reorder2 :: Int } -- TODO: give better names to reorder1 and reorder2
+	| Reordering { reorder :: Int ; correlation :: Int }
 	| Duplication { duplicate :: Int } 
 	| Bitflips { corrupt :: Int }
 ENDDEF
@@ -26,53 +26,70 @@ FUNCDEF lengthPacketList (pl :: PacketList) :: Int ::=
 	FI
 ENDDEF
 
-FUNCDEF isValid_Tampering (t :: Tampering) :: Bool :=
-	IF isDelay(t) THEN delay(t) > 0 /\ delay(t) < 400
-	ELSE IF isJitteredDelay(t) THEN delay(t) > 0 /\ delay(t) < 400 /\ jitter(t) > 0 /\ jitter(t) < 320
-	ELSE IF isPacketDrops(t) THEN loss(t) > 0  /\ loss(t) < 55
-	ELSE IF isLowThroughput(t) THEN rate(t) > 0 /\ rate(t) < 400 /\ burst(t) > 0 /\ burst(t) < 1028 /\ latency(t) > 0 /\ latency(t) < 500
-	ELSE IF isReordering(t) THEN reorder(t) > 0 /\ reorder(t) < 55 /\ correlation(t) > 0 /\ correlation(t) < 70
-	ELSE IF isDuplication(t) THEN duplicate(t) > 0 /\ duplicate(t) < 55
-	ELSE IF isBitflips(t) THEN corrupt(t) > 0 /\ corrupt(t) < 55
+FUNCDEF isValid_Tampering (t :: Tampering) :: Bool ::=
+	IF isDelay(t)
+	THEN (delay(t) > 0) /\ (delay(t) < 400)
+	ELSE
+		IF isJitteredDelay(t)
+		THEN (jitterDelay(t) > 0) /\ (jitterDelay(t) < 400) /\ (jitter(t) > 0) /\ (jitter(t) < 320) 
+		ELSE
+			IF isPacketDrops(t)
+			THEN (loss(t) > 0) /\ (loss(t) < 55)
+			ELSE
+				IF isLowThroughput(t)
+				THEN (rate(t) > 0) /\ (rate(t) < 400) /\ (burst(t) > 0) /\ (burst(t) < 1028) /\ (latency(t) > 0) /\ (latency(t) < 500)
+				ELSE
+					IF isReordering(t)
+					THEN (reorder(t) > 0) /\ (reorder(t) < 55) /\ (correlation(t) > 0) /\ (correlation(t) < 70)
+					ELSE
+						IF isDuplication(t)
+						THEN (duplicate(t) > 0) /\ (duplicate(t) < 55)
+						ELSE
+							IF isBitflips(t)
+							THEN (corrupt(t) > 0) /\ (corrupt(t) < 55)
+							ELSE True
+							FI
+						FI
+					FI
+				FI
+			FI
+		FI
 	FI
 ENDDEF
 
-FUNCDEF isValid_TamperingPair (tp :: TamperingPair) :: Bool :=
-	isValid_Tampering(first(t)) /\ isValid_Tampering(second(t))
-		/\ !(isDelay(first(t)) /\ isJitteredDelay(second(t)))
-		/\ !(isJitteredDelay(first(t)) /\ isDelay(second(t)))
-	--#
-	--isValid_Tampering(first(t)) /\ isValid_Tampering(second(t))
-		--/\ !(isDelay(first(t)) /\ isJitteredDelay(second(t)))
-	-- TODO: continue the exclusive tests
+FUNCDEF isValid_TamperingPair (tp :: TamperingPair) :: Bool ::=
+	isValid_Tampering(first(tp)) /\ isValid_Tampering(second(tp))
+		/\ not (isDelay(first(tp)) /\ isJitteredDelay(second(tp)))
+		/\ not (isJitteredDelay(first(tp)) /\ isDelay(second(tp)))
+	\/
+	isValid_Tampering(first(tp)) /\ isValid_Tampering(second(tp))
+		/\ not (isDelay(first(tp)) /\ isReordering(second(tp)))
+		/\ not (isReordering(first(tp)) /\ isDelay(second(tp)))
 ENDDEF
 
 CHANDEF Channels ::=
 	TamperingIn :: Tampering ;
 	PacketsIn :: PacketList ;
-	PacketsOut :: Int
+	PacketsOut :: PacketList
 ENDDEF
 
 MODELDEF TCP ::=
-	CHAN IN  PacketsIn, TamperingIn
+	CHAN IN  TamperingIn, PacketsIn
 	CHAN OUT PacketsOut
 	
-	BEHAVIOUR ???
+	BEHAVIOUR
+		TamperingIn ? x >-> PacketsIn ? y >-> PacketsOut ! y
 ENDDEF
 
 CNECTDEF Sut ::=
 	CLIENTSOCK
 	
 	CHAN OUT PacketsIn HOST "localhost" PORT 7890
-	ENCODE PacketsIn ? x -> ! x
+	ENCODE PacketsIn ? x -> ! toString(x)
 	
 	CHAN OUT TamperingIn HOST "localhost" PORT 7891
-	ENCODE TamperingIn ? x -> ! x
+	ENCODE TamperingIn ? x -> ! toString(x)
 	
 	CHAN IN PacketsOut HOST "localhost" PORT 7890
-	DECODE PacketsOut ! x <- ? x
+	DECODE PacketsOut ! fromString(x) <- ? x
 ENDDEF
-
-
--- sturen hoeveel packets, welke test het is, input parameters voor deze test
--- terugsturen: amount of errors
