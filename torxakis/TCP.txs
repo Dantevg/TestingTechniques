@@ -27,20 +27,23 @@ FUNCDEF lengthPacketList (pl :: PacketList) :: Int ::=
 ENDDEF
 
 FUNCDEF isValid_Tampering (t :: Tampering) :: Bool :=
-	IF isDelay(t) THEN delay(t) > 0 /\ delay(t) < 500
-	ELSE IF isJitteredDelay(t) THEN delay(t) > 0 /\ jitter(t) > 0 {- TODO -}
-	ELSE IF isPacketDrops(t) THEN loss(t) > 0 {- TODO -}
-	ELSE IF isLowThroughput(t) THEN rate(t) > 0 /\ burst(t) > 0 /\ latency(t) > 0 {- TODO -}
-	ELSE IF isReordering(t) THEN delay(t) > 0 /\ reorder1(t) > 0 /\ reorder2(t) > 0 {- TODO -}
-	ELSE IF isDuplication(t) THEN duplicate(t) > 0 {- TODO -}
-	ELSE IF isBitflips(t) THEN corrupt(t) > 0 {- TODO -}
+	IF isDelay(t) THEN delay(t) > 0 /\ delay(t) < 400
+	ELSE IF isJitteredDelay(t) THEN delay(t) > 0 /\ delay(t) < 400 /\ jitter(t) > 0 /\ jitter(t) < 320
+	ELSE IF isPacketDrops(t) THEN loss(t) > 0  /\ loss(t) < 55
+	ELSE IF isLowThroughput(t) THEN rate(t) > 0 /\ rate(t) < 400 /\ burst(t) > 0 /\ burst(t) < 1028 /\ latency(t) > 0 /\ latency(t) < 500
+	ELSE IF isReordering(t) THEN reorder(t) > 0 /\ reorder(t) < 55 /\ correlation(t) > 0 /\ correlation(t) < 70
+	ELSE IF isDuplication(t) THEN duplicate(t) > 0 /\ duplicate(t) < 55
+	ELSE IF isBitflips(t) THEN corrupt(t) > 0 /\ corrupt(t) < 55
 	FI
 ENDDEF
 
 FUNCDEF isValid_TamperingPair (tp :: TamperingPair) :: Bool :=
 	isValid_Tampering(first(t)) /\ isValid_Tampering(second(t))
-	/\ !(isDelay(first(t)) /\ isJitteredDelay(second(t)))
-	/\ !(isJitteredDelay(first(t)) /\ isDelay(second(t)))
+		/\ !(isDelay(first(t)) /\ isJitteredDelay(second(t)))
+		/\ !(isJitteredDelay(first(t)) /\ isDelay(second(t)))
+	--#
+	--isValid_Tampering(first(t)) /\ isValid_Tampering(second(t))
+		--/\ !(isDelay(first(t)) /\ isJitteredDelay(second(t)))
 	-- TODO: continue the exclusive tests
 ENDDEF
 
