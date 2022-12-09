@@ -19,10 +19,22 @@ TYPEDEF PacketList ::=
 	| Packet_cons { head :: String ; tail :: PacketList }
 ENDDEF
 
+TYPEDEF PacketListOrTampering ::=
+	TamperingPair { tamperingPair :: TamperingPair }
+	| PacketList { packetList :: PacketList }
+ENDDEF
+
 FUNCDEF lengthPacketList (pl :: PacketList) :: Int ::=
 	IF isPacket_nil(pl)
 	THEN 0
 	ELSE lengthPacketList(tail(pl)) + 1
+	FI
+ENDDEF
+
+FUNCDEF isValid_PacketList (pl :: PacketList) :: Bool ::=
+	IF isPacket_nil(pl)
+	THEN True
+	ELSE len(head(pl)) == 5 /\ isValid_PacketList(tail(pl))
 	FI
 ENDDEF
 
@@ -68,17 +80,18 @@ FUNCDEF isValid_TamperingPair (tp :: TamperingPair) :: Bool ::=
 ENDDEF
 
 CHANDEF Channels ::=
-	TamperingIn :: Tampering ;
-	In :: PacketList ;
-	PacketsOut :: PacketList
+	In :: PacketListOrTampering ;
+	Out :: PacketList
 ENDDEF
 
 MODELDEF TCP ::=
 	CHAN IN  In
-	CHAN OUT PacketsOut
+	CHAN OUT Out
 	
 	BEHAVIOUR
-		In ? y >-> PacketsOut ! y
+		In ? x [[ isTamperingPair(x) /\ isValid_TamperingPair(tamperingPair(x)) ]]
+		>-> In ? y [[ isPacketList(y) /\ (lengthPacketList(packetList(y)) == 5) /\ isValid_PacketList(packetList(y)) ]]
+		>-> Out ! packetList(y)
 ENDDEF
 
 CNECTDEF Sut ::=
@@ -87,9 +100,6 @@ CNECTDEF Sut ::=
 	CHAN OUT In HOST "localhost" PORT 7890
 	ENCODE In ? x -> ! toString(x)
 	
-	-- CHAN OUT TamperingIn HOST "localhost" PORT 7891
-	-- ENCODE TamperingIn ? x -> ! toString(x)
-	
-	CHAN IN PacketsOut HOST "localhost" PORT 7890
-	DECODE PacketsOut ! fromString(x) <- ? x
+	CHAN IN Out HOST "localhost" PORT 7890
+	DECODE Out ! fromString(x) <- ? x
 ENDDEF
