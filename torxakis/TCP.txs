@@ -69,26 +69,26 @@ ENDDEF
 
 CHANDEF Channels ::=
 	TamperingIn :: Tampering ;
-	PacketsIn :: PacketList ;
+	In :: PacketList ;
 	PacketsOut :: PacketList
 ENDDEF
 
 MODELDEF TCP ::=
-	CHAN IN  TamperingIn, PacketsIn
+	CHAN IN  In
 	CHAN OUT PacketsOut
 	
 	BEHAVIOUR
-		TamperingIn ? x >-> PacketsIn ? y >-> PacketsOut ! y
+		In ? y >-> PacketsOut ! y
 ENDDEF
 
 CNECTDEF Sut ::=
 	CLIENTSOCK
 	
-	CHAN OUT PacketsIn HOST "localhost" PORT 7890
-	ENCODE PacketsIn ? x -> ! toString(x)
+	CHAN OUT In HOST "localhost" PORT 7890
+	ENCODE In ? x -> ! toString(x)
 	
-	CHAN OUT TamperingIn HOST "localhost" PORT 7891
-	ENCODE TamperingIn ? x -> ! toString(x)
+	-- CHAN OUT TamperingIn HOST "localhost" PORT 7891
+	-- ENCODE TamperingIn ? x -> ! toString(x)
 	
 	CHAN IN PacketsOut HOST "localhost" PORT 7890
 	DECODE PacketsOut ! fromString(x) <- ? x
