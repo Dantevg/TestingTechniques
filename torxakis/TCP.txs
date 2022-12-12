@@ -19,9 +19,8 @@ TYPEDEF PacketList ::=
 	| Packet_cons { head :: String ; tail :: PacketList }
 ENDDEF
 
-TYPEDEF PacketListOrTampering ::=
-	TamperingPair { tamperingPair :: TamperingPair }
-	| PacketList { packetList :: PacketList }
+TYPEDEF PacketListAndTampering ::=
+	PacketListAndTampering { tamperingPair :: TamperingPair ; packetList :: PacketList }
 ENDDEF
 
 FUNCDEF lengthPacketList (pl :: PacketList) :: Int ::=
@@ -80,7 +79,7 @@ FUNCDEF isValid_TamperingPair (tp :: TamperingPair) :: Bool ::=
 ENDDEF
 
 CHANDEF Channels ::=
-	In :: PacketListOrTampering ;
+	In :: PacketListAndTampering ;
 	Out :: PacketList
 ENDDEF
 
@@ -89,9 +88,11 @@ MODELDEF TCP ::=
 	CHAN OUT Out
 	
 	BEHAVIOUR
-		In ? x [[ isTamperingPair(x) /\ isValid_TamperingPair(tamperingPair(x)) ]]
-		>-> In ? y [[ isPacketList(y) /\ (lengthPacketList(packetList(y)) == 5) /\ isValid_PacketList(packetList(y)) ]]
-		>-> Out ! packetList(y)
+		In ? x [[
+			isValid_TamperingPair(tamperingPair(x))
+			/\ (lengthPacketList(packetList(x)) == 5)
+			/\ isValid_PacketList(packetList(x)) ]]
+		>-> Out ! packetList(x)
 ENDDEF
 
 CNECTDEF Sut ::=
