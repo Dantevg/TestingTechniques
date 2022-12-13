@@ -4,43 +4,61 @@ from pytest import list_of, Generator
 N_PACKETS = 100
 PACKET_LENGTH = 1024
 
-# Delay { delay :: Int }
-# JitteredDelay { jitterDelay :: Int ; jitter :: Int }
-# PacketDrops { loss :: Int }
-# LowThroughput { rate :: Int ; burst :: Int ; latency :: Int }
-# Reordering { reorder :: Int ; correlation :: Int }
-# Duplication { duplicate :: Int } 
-# Bitflips { corrupt :: Int }
+def gen_int(x, min, max):
+	return x.generate_data(int, min_num=min, max_num=max)
 
 tamperings = {
-	"Delay": {
-		"delay": lambda x: x.generate_data(int, min_num = 0, max_num=400),
-	},
-	"JitteredDelay": {
-		"delay": lambda x: x.generate_data(int, min_num = 0, max_num=400),
-		"jitter": lambda x: x.generate_data(int, min_num = 0, max_num=320),
-	},
-	"PacketDrops": {},
-	"LowThroughput": {},
-	"Reordering": {},
-	"Duplication": {},
-	"Bitflips": {},
+	"Delay": lambda x: f"delay {gen_int(x, 0, 400)}ms",
+	"JitteredDelay": lambda x: f"delay {gen_int(x, 0, 400)}ms {gen_int(x, 0, 320)}ms",
+	"PacketDrops": lambda x: f"loss {gen_int(x, 0, 55)}%",
+	"LowThroughput": lambda x: f"rate {gen_int(x, 0, 512)}kbit burst {gen_int(x, 0, 1024)}kbit latency {gen_int(x, 0, 500)}ms",
+	"Reordering": lambda x: f"delay 10ms reorder {gen_int(x, 0, 55)}% {gen_int(x, 0, 70)}%",
+	"Duplication": lambda x: f"duplicate {gen_int(x, 0, 55)}%",
+	"Bitflips": lambda x: f"corrupt {gen_int(x, 0, 55)}%",
 }
 
-class Tampering(Generator):
-	def generate(self):
-		tampering = tamperings[self.generate_data(str, choices=list(tamperings.keys()))]
-		values = {}
-		for k in tampering.keys(): values[k] = tampering[k](self)
-		return values
+combinations = [
+	("Delay",),
+	("JitteredDelay",),
+	("PacketDrops",),
+	("LowThroughput",),
+	("Reordering",),
+	("Duplication",),
+	("Bitflips",),
+	("Delay", "PacketDrops"),
+	("Delay", "Reordering"),
+	("Delay", "Duplication"),
+	("Delay", "Bitflips"),
+	("JitteredDelay", "PacketDrops"),
+	("JitteredDelay", "Reordering"),
+	("JitteredDelay", "Duplication"),
+	("JitteredDelay", "Bitflips"),
+	("PacketDrops", "Reordering"),
+	("PacketDrops", "Duplication"),
+	("PacketDrops", "Bitflips"),
+	("Reordering", "Duplication"),
+	("Reordering", "Bitflips"),
+	("Duplication", "Bitflips"),
+]
 
-@pytest.mark.randomize(tamperings=list_of(Tampering(), min_items=1, max_items=2))
-def test_generate_tampering(tamperings):
-	# TODO: really do something, this is just here to see the output of Tampering()
-	assert tamperings == "Delay"
+def get_command(tamperings, device):
+	return f"sudo tc qdisc add dev {device} root netem {' '.join(tamperings)}"
+
+class Tamperings(Generator):
+	def generate(self, **kwargs):
+		tamperingNames = self.generate_data(str, choices=combinations)
+		tamperingCommands = [tamperings[tamperingNames[0]](self)]
+		if len(tamperingNames) == 2:
+			tamperingCommands.append(tamperings[tamperingNames[1]](self))
+		return tamperingCommands
 
 @pytest.mark.randomize(
+	tamperings=Tamperings(),
 	packets=list_of(str, min_items=N_PACKETS, max_items=N_PACKETS),
-	fixed_length=PACKET_LENGTH)
-def test_generate_packets(packets):
-	pass
+	fixed_length=PACKET_LENGTH
+)
+def test(tamperings, packets):
+	command = get_command(tamperings, "lo")
+	print(command)
+	# TODO: really do something, this is just here to see the output of Tamperings()
+	assert False
