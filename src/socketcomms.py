@@ -83,7 +83,7 @@ def build_return_string(data):
     return_string = "Packet_nil"
     for x in reversed(data):
         return_string = f"Packet_cons(\"{x}\",{return_string})"
-    return return_string
+    return return_string + "\n"
 
 
 def main():
