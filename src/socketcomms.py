@@ -61,6 +61,17 @@ def process_input(data):
         packet_data_list.append(packet_data)
     return tamp1_parsed, tamp2_parsed, packet_data_list
 
+def send_packages(tampering_cmd, packet_data):
+    # TODO
+    return packet_data
+
+def build_return_string(data):
+    return_string = "Packet_nil"
+    for x in reversed(data):
+        return_string = f"Packet_cons(\"{x}\",{return_string})"
+    return return_string
+
+
 def main():
     if len(sys.argv) != 2:
         print("Port number required")
@@ -78,7 +89,10 @@ def main():
                 data = conn.recv(1024).decode()
                 (tamp1, args1), (tamp2, args2), packet_data = process_input(data)
                 tampering_cmd = get_command(tamp1, args1)
-
+                return_data = send_packages(tampering_cmd, packet_data)
+                return_string = build_return_string(return_data)
+                print(return_string)
+                conn.send(return_string.encode())
 
 
 if __name__ == "__main__":
