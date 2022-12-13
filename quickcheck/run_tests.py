@@ -17,6 +17,8 @@ tamperings = {
 	"Bitflips": lambda x: f"corrupt {gen_int(x, 0, 55)}%",
 }
 
+# TODO: check that commands and combinations actually work
+# Probably there can be more combinations with LowThroughput
 combinations = [
 	("Delay",),
 	("JitteredDelay",),
@@ -26,16 +28,23 @@ combinations = [
 	("Duplication",),
 	("Bitflips",),
 	("Delay", "PacketDrops"),
+	# ("Delay", "JitteredDelay"),
+	# ("Delay", "LowThroughput"),
 	("Delay", "Reordering"),
 	("Delay", "Duplication"),
 	("Delay", "Bitflips"),
 	("JitteredDelay", "PacketDrops"),
+	# ("JitteredDelay", "LowThroughput"),
 	("JitteredDelay", "Reordering"),
 	("JitteredDelay", "Duplication"),
 	("JitteredDelay", "Bitflips"),
+	# ("PacketDrops", "LowThroughput"),
 	("PacketDrops", "Reordering"),
 	("PacketDrops", "Duplication"),
 	("PacketDrops", "Bitflips"),
+	# ("LowThroughput", "Reordering"),
+	# ("LowThroughput", "Duplication"),
+	# ("LowThroughput", "Bitflips"),
 	("Reordering", "Duplication"),
 	("Reordering", "Bitflips"),
 	("Duplication", "Bitflips"),
