@@ -11,6 +11,26 @@ def find_all(i_str, substr):
         yield start
         start += len(substr)
 
+def get_command(tamp, args):
+    args_len = len(args)
+    if args_len == 1:
+        if tamp == "Delay":
+            return f"sudo tc qdisc add dev lo root netem delay {args[0]}ms"
+        elif tamp == "PacketDrops":
+            return f"sudo tc qdisc add dev lo root netem loss {args[0]}%"
+        elif tamp == "Duplication":
+            return f"sudo tc qdisc add dev lo root netem duplicate {args[0]}%"
+        else:
+            return f"sudo tc qdisc add dev lo root netem corrupt {args[0]}%"
+    elif args_len == 2:
+        if tamp == "JitteredDelay":
+            return f"sudo tc qdisc add dev lo root netem delay {args[0]}ms {args[1]}ms"
+        else:
+            return f"sudo tc qdisc add dev lo root netem delay 10ms reorder {args[0]}% {args[1]}%"
+    else:
+        return f"sudo tc qdisc add dev lo root tbf rate {args[0]}kbit burst {args[1]}kbit latency {args[2]}ms"
+
+
 def parse_tampering(tamp):
     tamp_spl = tamp.split('(')
     args_ind = list(find_all(tamp_spl[1], ','))
@@ -57,7 +77,7 @@ def main():
             while True:
                 data = conn.recv(1024).decode()
                 (tamp1, args1), (tamp2, args2), packet_data = process_input(data)
-
+                tampering_cmd = get_command(tamp1, args1)
 
 
 
