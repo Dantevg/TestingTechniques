@@ -11,24 +11,38 @@ def find_all(i_str, substr):
         yield start
         start += len(substr)
 
-def get_command(tamp, args):
-    args_len = len(args)
-    if args_len == 1:
-        if tamp == "Delay":
-            return f"sudo tc qdisc add dev lo root netem delay {args[0]}ms"
-        elif tamp == "PacketDrops":
-            return f"sudo tc qdisc add dev lo root netem loss {args[0]}%"
-        elif tamp == "Duplication":
-            return f"sudo tc qdisc add dev lo root netem duplicate {args[0]}%"
-        else:
-            return f"sudo tc qdisc add dev lo root netem corrupt {args[0]}%"
-    elif args_len == 2:
-        if tamp == "JitteredDelay":
-            return f"sudo tc qdisc add dev lo root netem delay {args[0]}ms {args[1]}ms"
-        else:
-            return f"sudo tc qdisc add dev lo root netem delay 10ms reorder {args[0]}% {args[1]}%"
-    else:
-        return f"sudo tc qdisc add dev lo root tbf rate {args[0]}kbit burst {args[1]}kbit latency {args[2]}ms"
+
+def get_command(tamp1, args1, tamp2, args2):
+    command = "sudo tc qdisc add dev lo root netem"
+    if tamp1 == "Delay":
+        command = f"{command} delay {args1[0]}ms"
+    if tamp2 == "Delay":
+        command = f"{command} delay {args2[0]}ms"
+    if tamp1 == "JitteredDelay":
+        command = f"{command} delay {args1[0]}ms {args1[1]}ms"
+    if tamp2 == "JitteredDelay":
+        command = f"{command} delay {args2[0]}ms {args2[1]}ms"
+    if tamp1 == "Reordering":
+        command = f"{command} delay 10ms reorder {args1[0]}% {args1[1]}%"
+    if tamp2 == "Reordering":
+        command = f"{command} delay 10ms reorder {args2[0]}% {args2[1]}%"
+    if tamp1 == "PacketDrops":
+        command = f"{command} loss {args1[0]}%"
+    if tamp2 == "PacketDrops":
+        command = f"{command} loss {args2[0]}%"
+    if tamp1 == "Duplication":
+        command = f"{command} duplicate {args1[0]}%"
+    if tamp2 == "Duplication":
+        command = f"{command} duplicate {args2[0]}%"
+    if tamp1 == "Bitflips":
+        command = f"{command} corrupt {args1[0]}%"
+    if tamp2 == "Bitflips":
+        command = f"{command} corrupt {args2[0]}%"
+    if tamp1 == "LowThroughput":
+        command = f"{command} rate {args1[0]}kbit burst {args1[1]}kbit latency {args1[2]}ms"
+    if tamp2 == "LowThroughput":
+        command = f"{command} rate {args2[0]}kbit burst {args2[1]}kbit latency {args2[2]}ms"
+    return command
 
 
 def parse_tampering(tamp):
@@ -88,10 +102,9 @@ def main():
             while True:
                 data = conn.recv(1024).decode()
                 (tamp1, args1), (tamp2, args2), packet_data = process_input(data)
-                tampering_cmd = get_command(tamp1, args1)
+                tampering_cmd = get_command(tamp1, args1, tamp2, args2)
                 return_data = send_packages(tampering_cmd, packet_data)
                 return_string = build_return_string(return_data)
-                print(return_string)
                 conn.send(return_string.encode())
 
 
