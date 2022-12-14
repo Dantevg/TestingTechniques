@@ -1,8 +1,6 @@
 import queue
 import socket
 from threading import Thread
-import os
-import time
 
 def server(host = "127.0.0.1", port=8002):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -29,8 +27,10 @@ def client(
         s.connect((host, port))
         print(f"client: connected to {host}:{port}")
 
-        for m in messages:
-            s.sendall(m.encode())
+        for m in range(len(messages)):
+            percentage = m / len(messages) * 10
+            print(f"client: ┃{'█'*int(percentage)}{' '*int(10-percentage)}┃ {m} / {len(messages)} messages", end="\r")
+            s.sendall(messages[m].encode())
             data = s.recv(1024).decode()
             q.put(data)
 
