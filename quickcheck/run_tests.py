@@ -13,7 +13,7 @@ tamperings = {
 	"Delay": lambda x: f"delay {gen_int(x, 0, 400)}ms",
 	"JitteredDelay": lambda x: f"delay {gen_int(x, 0, 400)}ms {gen_int(x, 0, 320)}ms",
 	"PacketDrops": lambda x: f"loss {gen_int(x, 0, 55)}%",
-	"LowThroughput": lambda x: f"rate {gen_int(x, 0, 512)}kbit burst {gen_int(x, 0, 1024)}kbit latency {gen_int(x, 0, 500)}ms",
+	"LowThroughput": lambda x: f"rate {gen_int(x, 0, 512)}kbit latency {gen_int(x, 0, 500)}ms",
 	"Reordering": lambda x: f"delay 10ms reorder {gen_int(x, 0, 55)}% {gen_int(x, 0, 70)}%",
 	"Duplication": lambda x: f"duplicate {gen_int(x, 0, 55)}%",
 	"Bitflips": lambda x: f"corrupt {gen_int(x, 0, 55)}%",
