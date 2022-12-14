@@ -1,7 +1,9 @@
+import os
 import pytest
 from pytest import list_of, Generator
+import server_client2
 
-N_PACKETS = 100
+N_PACKETS = 5
 PACKET_LENGTH = 1024
 
 def gen_int(x, min, max):
@@ -64,10 +66,15 @@ class Tamperings(Generator):
 @pytest.mark.randomize(
 	tamperings=Tamperings(),
 	packets=list_of(str, min_items=N_PACKETS, max_items=N_PACKETS),
-	fixed_length=PACKET_LENGTH
+	fixed_length=PACKET_LENGTH,
+	ncalls=10
 )
 def test(tamperings, packets):
 	command = get_command(tamperings, "lo")
-	print(command)
-	# TODO: really do something, this is just here to see the output of Tamperings()
-	assert False
+	print(f"test: running command '{command}'")
+	os.system("sudo tc qdisc del dev lo root")
+	assert os.system(command) == 0
+	q = server_client2.run_server_client(client_args={"messages": packets})
+	for p1 in packets:
+		p2 = q.get()
+		assert p1 == p2
