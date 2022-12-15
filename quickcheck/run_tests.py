@@ -6,6 +6,7 @@ import server_client2
 N_PACKETS = 10
 PACKET_LENGTH = 1024
 
+# shorthand / convenience function
 def gen_int(x, min, max):
 	return x.generate_data(int, min_num=min, max_num=max)
 
@@ -57,23 +58,38 @@ def get_command(tamperings, device):
 
 class TamperingsAndPackets(Generator):
 	def generate(self, **kwargs):
+		# generate a pair of tampering names
 		tamperingNames = self.generate_data(str, choices=combinations)
+		
+		# convert those names to actual command parts
 		tamperingCommands = [tamperings[tamperingNames[0]](self)]
 		if len(tamperingNames) == 2:
 			tamperingCommands.append(tamperings[tamperingNames[1]](self))
+		
+		# generate a packet list: a list of length N_PACKETS, each item is a
+		# string of length PACKET_LENGTH
 		packets = self.generate_data(list_of(str, min_items=N_PACKETS, max_items=N_PACKETS), fixed_length=PACKET_LENGTH)
 		return (tamperingCommands, packets)
 
 @pytest.mark.randomize(tamperingsAndPackets=TamperingsAndPackets(), ncalls=10)
 def test(tamperingsAndPackets):
 	(tamperings, packets) = tamperingsAndPackets
+	
+	# convert tamperings to actual runnable command
 	command = get_command(tamperings, "lo")
 	print(f"running command '{command}'")
+	
+	# run tampering command and check that it worked
 	assert os.system(command) == 0
+	
+	# send packets to TCP
 	q = server_client2.run_server_client(client_args={"messages": packets})
+	
+	# check that all packets have arrived correctly
 	for p1 in packets:
 		p2 = q.get()
 		assert p1 == p2
 
+# reset network tampering when test completes
 def teardown_function():
 	os.system("sudo tc qdisc del dev lo root")
