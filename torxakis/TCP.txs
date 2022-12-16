@@ -77,12 +77,16 @@ FUNCDEF isValid_TamperingPair (tp :: TamperingPair) :: Bool ::=
 	IF isValid_Tampering(first(tp)) /\ isValid_Tampering(second(tp))
 	THEN
 		not (isNone(first(tp)) /\ isNone(second(tp)))
-		/\ not (isLowThroughput(first(tp)) /\ not (isNone(second(tp))))
-		/\ not (not (isNone(first(tp))) /\ isLowThroughput(second(tp)))
-		/\ not (isDelay(first(tp)) /\ isJitteredDelay(second(tp)))
-		/\ not (isJitteredDelay(first(tp)) /\ isDelay(second(tp)))
-		/\ not (isDelay(first(tp)) /\ isReordering(second(tp)))
-		/\ not (isReordering(first(tp)) /\ isDelay(second(tp)))
+		/\ (isNone(first(tp)) \/ isNone(second(tp))
+		    \/ (isJitteredDelay(first(tp)) /\ isLowThroughput(second(tp)))
+			\/ (isLowThroughput(first(tp)) /\ isJitteredDelay(second(tp)))
+			\/ (isReordering(first(tp)) /\ isDuplication(second(tp)))
+			\/ (isDuplication(first(tp)) /\ isReordering(second(tp)))
+			\/ (isPacketDrops(first(tp)) /\ isLowThroughput(second(tp)))
+			\/ (isLowThroughput(first(tp)) /\ isPacketDrops(second(tp)))
+			\/ (isDuplication(first(tp)) /\ isBitflips(second(tp)))
+			\/ (isBitflips(first(tp)) /\ isDuplication(second(tp)))
+			)
 	ELSE False
 	FI
 ENDDEF
