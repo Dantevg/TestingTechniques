@@ -8,9 +8,9 @@ def server(host = "127.0.0.1", port=8002):
         s.bind((host, port))
         s.listen()
         conn, addr = s.accept()
-        print(f"server: started on {host}:{port}")
+        # print(f"server: started on {host}:{port}")
         with conn:
-            print(f"server: connected by {addr}")
+            # print(f"server: connected by {addr}")
             while True:
                 data = conn.recv(1024)
                 if not data:
@@ -23,16 +23,19 @@ def client(
     port=8002, 
     messages = []):
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((host, port))
-        print(f"client: connected to {host}:{port}")
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((host, port))
+            # print(f"client: connected to {host}:{port}")
 
-        for m in range(len(messages)):
-            percentage = m / len(messages) * 10
-            print(f"client: ┃{'█'*int(percentage)}{' '*int(10-percentage)}┃ {m} / {len(messages)} messages", end="\r")
-            s.sendall(messages[m].encode())
-            data = s.recv(1024).decode()
-            q.put(data)
+            for m in range(len(messages)):
+                percentage = m / len(messages) * 10
+                print(f"client: ┃{'█'*int(percentage)}{' '*int(10-percentage)}┃ {m} / {len(messages)} messages", end="\r")
+                s.sendall(messages[m].encode())
+                data = s.recv(1024).decode()
+                q.put(data)
+    except:
+        pass
 
 def run_server_client(server_args = None, client_args = None):
     q = queue.Queue()

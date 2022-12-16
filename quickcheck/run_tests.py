@@ -71,7 +71,7 @@ class TamperingsAndPackets(Generator):
 		packets = self.generate_data(list_of(str, min_items=N_PACKETS, max_items=N_PACKETS), fixed_length=PACKET_LENGTH)
 		return (tamperingCommands, packets)
 
-@pytest.mark.randomize(tamperingsAndPackets=TamperingsAndPackets(), ncalls=10)
+@pytest.mark.randomize(tamperingsAndPackets=TamperingsAndPackets(), ncalls=100)
 def test(tamperingsAndPackets):
 	(tamperings, packets) = tamperingsAndPackets
 	
@@ -87,7 +87,7 @@ def test(tamperingsAndPackets):
 	
 	# check that all packets have arrived correctly
 	for p1 in packets:
-		p2 = q.get()
+		p2 = q.get(block=False)
 		assert p1 == p2
 
 # reset network tampering when test completes
