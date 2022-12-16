@@ -1,4 +1,21 @@
-# Testing Techniques test tool
+# Assignment 3 - Model Based Testing
+## Installation
+1. Install TorXakis, Python and pip
+2. Install Python-Quickcheck by running `pip install python-quickcheck`
+
+## TorXakis usage
+1. Run TorXakis with the TCP definition: `torxakis.exe .\torxakis\TCP.txs`
+2. Start the SUT in another terminal: `python .\src\socketcomms.py 7890`
+3. In the TorXakis REPL, run the following commands:
+   - `tester TCP Sut`
+   - `param_Sut_deltaTime 100000`
+   - `test 100` (or however many tests you want to run)
+
+## Pytest-Quickcheck usage
+To run the tests, run `py.test -v .\quickcheck\run_tests.py`. If you want to see
+the progress within a test, add `--capture=tee-sys` to the end of that command.
+
+# Assignment 2 - Automatic test tool
 This test tool automatically runs all tests defined in [`src/tests.py`](src/tests.py).
 It gathers the information about test pass/fail status and how long each test
 took, and displays it in a summary.
