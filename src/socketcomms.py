@@ -7,8 +7,8 @@ import os
 # krijgt een packetlijst en een lijst van tamperings en moet als output de packetlijst van torxakis teruggeven.
 
 def exec_command(command):
-	print(f"test: running command '{command}'")
-	return os.system(command)
+    print(f"test: running command '{command}'")
+    return os.system(command)
 
 def find_all(i_str, substr):
     start = 0
@@ -21,7 +21,9 @@ def find_all(i_str, substr):
 
 def get_command(tamp, args):
     args_len = len(args)
-    if args_len == 1:
+    if args_len == 0:
+        return ""
+    elif args_len == 1:
         if tamp == "Delay":
             return f"sudo tc qdisc add dev lo root netem delay {args[0]}ms"
         elif tamp == "PacketDrops":
@@ -71,9 +73,9 @@ def process_input(data):
 
 def send_packages(tampering_cmd, packet_data):
     if exec_command(tampering_cmd) != 0:
-	    print("Failed to execute network tampering command")
-	    exec_command("sudo tc qdisc del dev lo root")
-	    return
+        print("Failed to execute network tampering command")
+        exec_command("sudo tc qdisc del dev lo root")
+        return
     return_data = server_client2.run_server_client(client_args={"messages": packet_data})
     exec_command("sudo tc qdisc del dev lo root")
     return return_data

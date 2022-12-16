@@ -7,6 +7,7 @@ TYPEDEF Tampering ::=
 	| Reordering { reorder :: Int ; correlation :: Int }
 	| Duplication { duplicate :: Int } 
 	| Bitflips { corrupt :: Int }
+	| None
 ENDDEF
 
 TYPEDEF TamperingPair ::=
@@ -73,13 +74,17 @@ FUNCDEF isValid_Tampering (t :: Tampering) :: Bool ::=
 ENDDEF
 
 FUNCDEF isValid_TamperingPair (tp :: TamperingPair) :: Bool ::=
-	isValid_Tampering(first(tp)) /\ isValid_Tampering(second(tp))
+	IF isValid_Tampering(first(tp)) /\ isValid_Tampering(second(tp))
+	THEN
+		not (isNone(first(tp)) /\ isNone(second(tp)))
+		/\ not (isLowThroughput(first(tp)) /\ not isNone(second(tp)))
+		/\ not (not isNone(first(tp)) /\ isLowThroughput(second(tp)))
 		/\ not (isDelay(first(tp)) /\ isJitteredDelay(second(tp)))
 		/\ not (isJitteredDelay(first(tp)) /\ isDelay(second(tp)))
-	\/
-	isValid_Tampering(first(tp)) /\ isValid_Tampering(second(tp))
 		/\ not (isDelay(first(tp)) /\ isReordering(second(tp)))
 		/\ not (isReordering(first(tp)) /\ isDelay(second(tp)))
+	ELSE False
+	FI
 ENDDEF
 
 CHANDEF Channels ::=
