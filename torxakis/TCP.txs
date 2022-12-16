@@ -91,6 +91,34 @@ FUNCDEF isValid_TamperingPair (tp :: TamperingPair) :: Bool ::=
 	FI
 ENDDEF
 
+PROCDEF examples [In :: PacketListAndTampering; Out :: PacketList] () HIT ::=
+		In ! PacketListAndTampering(TamperingPair(None,LowThroughput(4,18,61)),Packet_cons("FDAEA",Packet_cons("PHDPZ",Packet_cons("HDBBH",Packet_cons("PBAHP",Packet_cons("PPHBB",Packet_nil))))))
+	>-> Out ! Packet_cons("FDAEA",Packet_cons("PHDPZ",Packet_cons("HDBBH",Packet_cons("PBAHP",Packet_cons("PPHBB",Packet_nil)))))
+	>-> In ! PacketListAndTampering(TamperingPair(JitteredDelay(41,29),LowThroughput(92,47,13)),Packet_cons("DBDPA",Packet_cons("BHQDH",Packet_nil)))
+	>-> Out ! Packet_cons("DBDPA",Packet_cons("BHQDH",Packet_nil))
+	>-> In ! PacketListAndTampering(TamperingPair(LowThroughput(100,72,67),None),Packet_cons("CBDAJ",Packet_cons("CDHDD",Packet_cons("PHTHB",Packet_cons("PBABP",Packet_cons("PDAHH",Packet_nil))))))
+	>-> Out ! Packet_cons("CBDAJ",Packet_cons("CDHDD",Packet_cons("PHTHB",Packet_cons("PBABP",Packet_cons("PDAHH",Packet_nil)))))
+	>-> In ! PacketListAndTampering(TamperingPair(Reordering(1,29),Duplication(1)),Packet_cons("NBABB",Packet_cons("CLHDQ",Packet_cons("HACBB",Packet_cons("AHHAD",Packet_cons("AADBB",Packet_nil))))))
+	>-> Out ! Packet_cons("NBABB",Packet_cons("CLHDQ",Packet_cons("HACBB",Packet_cons("AHHAD",Packet_cons("AADBB",Packet_nil)))))
+	>-> In ! PacketListAndTampering(TamperingPair(None,Reordering(15,1)), Packet_cons("DADZF",Packet_cons("PKAAH",Packet_cons("ADEPA",Packet_cons("JDAPA",Packet_nil)))))
+	>-> Out ! Packet_cons("DADZF",Packet_cons("PKAAH",Packet_cons("ADEPA",Packet_cons("JDAPA",Packet_nil))))
+	>-> In ! PacketListAndTampering(TamperingPair(None,Delay(17)),Packet_cons("BHZBA",Packet_cons("PZDAB",Packet_cons("BHDBD",Packet_cons("HHABH",Packet_cons("AHPHA",Packet_nil))))))
+	>-> Out ! Packet_cons("BHZBA",Packet_cons("PZDAB",Packet_cons("BHDBD",Packet_cons("HHABH",Packet_cons("AHPHA",Packet_nil)))))
+	>-> In ! PacketListAndTampering(TamperingPair(None,Delay(24)),Packet_cons("NDDSJ",Packet_cons("ZSPWD",Packet_cons("BHDHP",Packet_cons("BDAHH",Packet_cons("QDAPA",Packet_nil))))))
+	>-> Out ! Packet_cons("NDDSJ",Packet_cons("ZSPWD",Packet_cons("BHDHP",Packet_cons("BDAHH",Packet_cons("QDAPA",Packet_nil)))))
+	>-> In ! PacketListAndTampering(TamperingPair(PacketDrops(51),LowThroughput(1,2,10)),Packet_cons("BPBAD",Packet_nil))
+	>-> Out ! Packet_cons("BPBAD",Packet_nil)
+	>-> In ! PacketListAndTampering(TamperingPair(Reordering(11,58),Duplication(40)),Packet_cons("HELLO",Packet_cons("DHGQD",Packet_cons("IHDCC",Packet_cons("ABLBP",Packet_cons("DBDBD",Packet_cons("DHABB",Packet_nil)))))))
+	>-> Out ! Packet_cons("HELLO",Packet_cons("DHGQD",Packet_cons("IHDCC",Packet_cons("ABLBP",Packet_cons("DBDBD",Packet_cons("DHABB",Packet_nil))))))
+ENDDEF
+
+PURPDEF Purp ::=
+	CHAN IN In
+	CHAN OUT Out
+
+	GOAL examples ::= examples [In, Out] ()
+ENDDEF
+
 CHANDEF Channels ::=
 	In :: PacketListAndTampering ;
 	Out :: PacketList
