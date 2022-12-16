@@ -8,7 +8,7 @@
 2. Start the SUT in another terminal: `python .\src\socketcomms.py 7890`
 3. In the TorXakis REPL, run the following commands:
    - `tester TCP Sut`
-   - `param_Sut_deltaTime 100000`
+   - `param_Sut_deltaTime 10000000`
    - `test 100` (or however many tests you want to run)
 
 ## Pytest-Quickcheck usage
