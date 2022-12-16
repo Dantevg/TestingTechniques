@@ -1,0 +1,65 @@
+============================================================================== test session starts ==============================================================================
+platform linux -- Python 3.7.5, pytest-7.2.0, pluggy-1.0.0 -- /home/linuxbrew/.linuxbrew/opt/python/bin/python3.7
+cachedir: .pytest_cache
+rootdir: /home/dante/Documents/Github/TestingTechniques
+plugins: quickcheck-0.9.0
+collected 10 items                                                                                                                                                              
+
+quickcheck/run_tests.py::test[tamperingsAndPackets0] running command 'sudo tc qdisc add dev lo root netem delay 10ms reorder 14% 48% duplicate 13%'
+client: connected to 127.0.0.1:8002
+server: started on 127.0.0.1:8002ges
+server: connected by ('127.0.0.1', 39010)
+PASSED                                                                                                               [ 10%]
+quickcheck/run_tests.py::test[tamperingsAndPackets1] running command 'sudo tc qdisc add dev lo root netem delay 365ms 277ms'
+client: connected to 127.0.0.1:8002
+server: started on 127.0.0.1:8002ges
+server: connected by ('127.0.0.1', 39022)
+PASSED                                                                                                               [ 20%]
+quickcheck/run_tests.py::test[tamperingsAndPackets2] running command 'sudo tc qdisc add dev lo root netem loss 45% delay 10ms reorder 51% 28%'
+client: connected to 127.0.0.1:8002
+server: started on 127.0.0.1:8002
+server: connected by ('127.0.0.1', 40718)
+PASSED                                                                                                               [ 30%]
+quickcheck/run_tests.py::test[tamperingsAndPackets3] running command 'sudo tc qdisc add dev lo root netem delay 227ms duplicate 3%'
+client: connected to 127.0.0.1:8002
+server: started on 127.0.0.1:8002ges
+server: connected by ('127.0.0.1', 47142)
+PASSED                                                                                                               [ 40%]
+quickcheck/run_tests.py::test[tamperingsAndPackets4] running command 'sudo tc qdisc add dev lo root netem corrupt 9%'
+client: connected to 127.0.0.1:8002
+server: started on 127.0.0.1:8002
+server: connected by ('127.0.0.1', 51214)
+PASSED                                                                                                               [ 50%]
+quickcheck/run_tests.py::test[tamperingsAndPackets5] running command 'sudo tc qdisc add dev lo root netem delay 116ms 226ms delay 10ms reorder 1% 20%'
+server: started on 127.0.0.1:8002
+client: connected to 127.0.0.1:8002
+server: connected by ('127.0.0.1', 51216)
+PASSED                                                                                                               [ 60%]
+quickcheck/run_tests.py::test[tamperingsAndPackets6] running command 'sudo tc qdisc add dev lo root netem delay 279ms 87ms'
+client: connected to 127.0.0.1:8002
+server: started on 127.0.0.1:8002ges
+server: connected by ('127.0.0.1', 51218)
+PASSED                                                                                                               [ 70%]
+quickcheck/run_tests.py::test[tamperingsAndPackets7] running command 'sudo tc qdisc add dev lo root netem delay 272ms 242ms corrupt 18%'
+client: connected to 127.0.0.1:8002
+server: started on 127.0.0.1:8002ges
+server: connected by ('127.0.0.1', 49594)
+PASSED                                                                                                               [ 80%]
+quickcheck/run_tests.py::test[tamperingsAndPackets8] running command 'sudo tc qdisc add dev lo root netem loss 29% delay 10ms reorder 32% 15%'
+client: connected to 127.0.0.1:8002
+server: started on 127.0.0.1:8002ges
+server: connected by ('127.0.0.1', 50118)
+PASSED                                                                                                               [ 90%]
+quickcheck/run_tests.py::test[tamperingsAndPackets9] running command 'sudo tc qdisc add dev lo root netem loss 6% corrupt 22%'
+client: connected to 127.0.0.1:8002
+server: started on 127.0.0.1:8002ges
+server: connected by ('127.0.0.1', 50210)
+PASSED                                                                                                               [100%]
+
+=============================================================================== warnings summary ================================================================================
+../../../../linuxbrew/.linuxbrew/opt/python/lib/python3.7/site-packages/pytest_quickcheck/plugin.py:103
+  /home/linuxbrew/.linuxbrew/opt/python/lib/python3.7/site-packages/pytest_quickcheck/plugin.py:103: PytestDeprecationWarning: A private pytest class or function was used.
+    randomize = Mark(randomize.name, args, {})
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=================================================================== 10 passed, 1 warning in 96.93s (0:01:36) ====================================================================

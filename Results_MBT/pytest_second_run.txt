@@ -1,0 +1,95 @@
+============================================================================== test session starts ==============================================================================
+platform linux -- Python 3.7.5, pytest-7.2.0, pluggy-1.0.0 -- /home/linuxbrew/.linuxbrew/opt/python/bin/python3.7
+cachedir: .pytest_cache
+rootdir: /home/dante/Documents/Github/TestingTechniques
+plugins: timeout-2.1.0, quickcheck-0.9.0
+collected 100 items                                                                                                                                                             
+
+quickcheck/run_tests.py::test[tamperingsAndPackets0] running command 'sudo tc qdisc add dev lo root netem delay 205ms 70ms delay 10ms reorder 20% 46%'
+PASSED                                                                                                               [  1%]
+quickcheck/run_tests.py::test[tamperingsAndPackets1] running command 'sudo tc qdisc add dev lo root netem delay 198ms 160ms loss 7%'
+PASSED                                                                                                               [  2%]
+quickcheck/run_tests.py::test[tamperingsAndPackets2] running command 'sudo tc qdisc add dev lo root netem delay 10ms reorder 53% 35% duplicate 21%'
+PASSED                                                                                                               [  3%]
+quickcheck/run_tests.py::test[tamperingsAndPackets3] running command 'sudo tc qdisc add dev lo root netem loss 27% delay 10ms reorder 10% 42%'
+PASSED                                                                                                               [  4%]
+quickcheck/run_tests.py::test[tamperingsAndPackets4] running command 'sudo tc qdisc add dev lo root netem loss 2%'
+PASSED                                                                                                               [  5%]
+quickcheck/run_tests.py::test[tamperingsAndPackets5] running command 'sudo tc qdisc add dev lo root netem duplicate 45% corrupt 29%'
+PASSED                                                                                                               [  6%]
+quickcheck/run_tests.py::test[tamperingsAndPackets6] running command 'sudo tc qdisc add dev lo root netem delay 357ms 277ms loss 21%'
+PASSED                                                                                                               [  7%]
+quickcheck/run_tests.py::test[tamperingsAndPackets7] running command 'sudo tc qdisc add dev lo root netem delay 10ms reorder 54% 50% corrupt 28%'
+PASSED                                                                                                               [  8%]
+quickcheck/run_tests.py::test[tamperingsAndPackets8] running command 'sudo tc qdisc add dev lo root netem delay 294ms duplicate 37%'
+PASSED                                                                                                               [  9%]
+quickcheck/run_tests.py::test[tamperingsAndPackets9] running command 'sudo tc qdisc add dev lo root netem delay 296ms duplicate 49%'
+PASSED                                                                                                               [ 10%]
+quickcheck/run_tests.py::test[tamperingsAndPackets10] running command 'sudo tc qdisc add dev lo root netem loss 33%'
+PASSED                                                                                                              [ 11%]
+quickcheck/run_tests.py::test[tamperingsAndPackets11] running command 'sudo tc qdisc add dev lo root netem delay 226ms corrupt 42%'
+PASSED                                                                                                              [ 12%]
+quickcheck/run_tests.py::test[tamperingsAndPackets12] running command 'sudo tc qdisc add dev lo root netem delay 350ms'
+PASSED                                                                                                              [ 13%]
+quickcheck/run_tests.py::test[tamperingsAndPackets13] running command 'sudo tc qdisc add dev lo root netem delay 240ms 126ms duplicate 20%'
+PASSED                                                                                                              [ 14%]
+quickcheck/run_tests.py::test[tamperingsAndPackets14] running command 'sudo tc qdisc add dev lo root netem delay 10ms reorder 11% 52% corrupt 6%'
+PASSED                                                                                                              [ 15%]
+quickcheck/run_tests.py::test[tamperingsAndPackets15] running command 'sudo tc qdisc add dev lo root netem loss 22% delay 10ms reorder 44% 32%'
+PASSED                                                                                                              [ 16%]
+quickcheck/run_tests.py::test[tamperingsAndPackets16] running command 'sudo tc qdisc add dev lo root netem delay 300ms 124ms duplicate 6%'
+PASSED                                                                                                              [ 17%]
+quickcheck/run_tests.py::test[tamperingsAndPackets17] running command 'sudo tc qdisc add dev lo root netem loss 51% corrupt 34%'
+PASSED                                                                                                              [ 18%]
+quickcheck/run_tests.py::test[tamperingsAndPackets18] running command 'sudo tc qdisc add dev lo root netem loss 3% corrupt 41%'
+PASSED                                                                                                              [ 19%]
+quickcheck/run_tests.py::test[tamperingsAndPackets19] running command 'sudo tc qdisc add dev lo root netem loss 16% duplicate 6%'
+PASSED                                                                                                              [ 20%]
+quickcheck/run_tests.py::test[tamperingsAndPackets20] running command 'sudo tc qdisc add dev lo root netem delay 397ms 50ms corrupt 13%'
+PASSED                                                                                                              [ 21%]
+quickcheck/run_tests.py::test[tamperingsAndPackets21] running command 'sudo tc qdisc add dev lo root netem delay 90ms delay 10ms reorder 13% 50%'
+PASSED                                                                                                              [ 22%]
+quickcheck/run_tests.py::test[tamperingsAndPackets22] running command 'sudo tc qdisc add dev lo root netem delay 249ms 213ms corrupt 53%'
+PASSED                                                                                                              [ 23%]
+quickcheck/run_tests.py::test[tamperingsAndPackets23] running command 'sudo tc qdisc add dev lo root netem delay 8ms delay 10ms reorder 32% 24%'
+PASSED                                                                                                              [ 24%]
+quickcheck/run_tests.py::test[tamperingsAndPackets24] running command 'sudo tc qdisc add dev lo root netem loss 19% delay 10ms reorder 38% 53%'
+PASSED                                                                                                              [ 25%]
+quickcheck/run_tests.py::test[tamperingsAndPackets25] running command 'sudo tc qdisc add dev lo root netem delay 8ms loss 53%'
+PASSED                                                                                                              [ 26%][sudo] password for dante: 
+
+quickcheck/run_tests.py::test[tamperingsAndPackets26] running command 'sudo tc qdisc add dev lo root netem rate 452kbit latency 175ms'
+PASSED                                                                                                              [ 27%]
+quickcheck/run_tests.py::test[tamperingsAndPackets27] running command 'sudo tc qdisc add dev lo root netem loss 24% delay 10ms reorder 41% 1%'
+PASSED                                                                                                              [ 28%]
+quickcheck/run_tests.py::test[tamperingsAndPackets28] running command 'sudo tc qdisc add dev lo root netem duplicate 50%'
+PASSED                                                                                                              [ 29%]
+quickcheck/run_tests.py::test[tamperingsAndPackets29] running command 'sudo tc qdisc add dev lo root netem delay 203ms 274ms loss 9%'
+PASSED                                                                                                              [ 30%]
+quickcheck/run_tests.py::test[tamperingsAndPackets30] running command 'sudo tc qdisc add dev lo root netem rate 83kbit latency 254ms'
+PASSED                                                                                                              [ 31%]
+quickcheck/run_tests.py::test[tamperingsAndPackets31] running command 'sudo tc qdisc add dev lo root netem delay 190ms corrupt 34%'
+PASSED                                                                                                              [ 32%]
+quickcheck/run_tests.py::test[tamperingsAndPackets32] running command 'sudo tc qdisc add dev lo root netem delay 274ms loss 35%'
+PASSED                                                                                                              [ 33%]
+quickcheck/run_tests.py::test[tamperingsAndPackets33] running command 'sudo tc qdisc add dev lo root netem delay 10ms reorder 42% 66% corrupt 30%'
+PASSED                                                                                                              [ 34%]
+quickcheck/run_tests.py::test[tamperingsAndPackets34] running command 'sudo tc qdisc add dev lo root netem rate 310kbit latency 386ms'
+PASSED                                                                                                              [ 35%]
+quickcheck/run_tests.py::test[tamperingsAndPackets35] running command 'sudo tc qdisc add dev lo root netem delay 48ms 97ms loss 10%'
+PASSED                                                                                                              [ 36%]
+quickcheck/run_tests.py::test[tamperingsAndPackets36] running command 'sudo tc qdisc add dev lo root netem delay 367ms 56ms duplicate 29%'
+PASSED                                                                                                              [ 37%]
+quickcheck/run_tests.py::test[tamperingsAndPackets37] running command 'sudo tc qdisc add dev lo root netem delay 47ms 41ms delay 10ms reorder 30% 35%'
+PASSED                                                                                                              [ 38%]
+quickcheck/run_tests.py::test[tamperingsAndPackets38] running command 'sudo tc qdisc add dev lo root netem delay 10ms reorder 28% 16%'
+PASSED                                                                                                              [ 39%]
+quickcheck/run_tests.py::test[tamperingsAndPackets39] running command 'sudo tc qdisc add dev lo root netem delay 10ms reorder 45% 5% corrupt 50%'
+PASSED                                                                                                              [ 40%]
+quickcheck/run_tests.py::test[tamperingsAndPackets40] running command 'sudo tc qdisc add dev lo root netem loss 46% duplicate 9%'
+PASSED                                                                                                              [ 41%]
+quickcheck/run_tests.py::test[tamperingsAndPackets41] running command 'sudo tc qdisc add dev lo root netem delay 201ms duplicate 22%'
+PASSED                                                                                                              [ 42%]
+quickcheck/run_tests.py::test[tamperingsAndPackets42] running command 'sudo tc qdisc add dev lo root netem delay 10ms reorder 55% 18%'
+PASSED                                                                                                              [ 43%]
+quickcheck/run_tests.py::test[tamperingsAndPackets43] running command 'sudo tc qdisc add dev lo root netem duplicate 46%'

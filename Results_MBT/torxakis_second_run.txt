@@ -1,0 +1,114 @@
+TXS >>  TorXakis :: Model-Based Testing
+
+TXS >>  txsserver starting: "localhost" : 35693
+TXS >>  Solver "z3" initialized : Z3 [4.8.5]
+TXS >>  TxsCore initialized
+TXS >>  LPEOps version 2019.07.05.02
+TXS >>  input files parsed:
+TXS >>  ["torxakis/TCP.txs"]
+TXS >> param param_Sut_deltaTime 10000000
+TXS >>  param_Sut_deltaTime = 10000000
+TXS >> tester TCP Sut
+TXS >>  Tester started
+TXS >> test 100
+TXS >>  .....1: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,LowThroughput(2,92,89)),Packet_cons("FDAEA",Packet_cons("PHDPZ",Packet_cons("HDBBH",Packet_cons("PBAHP",Packet_cons("PPHBB",Packet_nil)))))) ] ) } }
+TXS >>  .....2: OUT: Act { { ( Out, [ Packet_cons("FDAEA",Packet_cons("PHDPZ",Packet_cons("HDBBH",Packet_cons("PBAHP",Packet_cons("PPHBB",Packet_nil))))) ] ) } }
+TXS >>  .....3: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Reordering(38,1),Duplication(21)),Packet_cons("OFRIX",Packet_cons("PHHBA",Packet_cons("BAHDB",Packet_cons("HPBAP",Packet_cons("PABHD",Packet_nil)))))) ] ) } }
+TXS >>  .....4: OUT: Act { { ( Out, [ Packet_cons("OFRIX",Packet_cons("PHHBA",Packet_cons("BAHDB",Packet_cons("HPBAP",Packet_cons("PABHD",Packet_nil))))) ] ) } }
+TXS >>  .....5: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(79,49),LowThroughput(77,75,1)),Packet_cons("BCPDU",Packet_cons("BAIED",Packet_cons("DDHDH",Packet_cons("ABBAH",Packet_cons("ABHBP",Packet_nil)))))) ] ) } }
+TXS >>  .....6: OUT: Act { { ( Out, [ Packet_cons("BCPDU",Packet_cons("BAIED",Packet_cons("DDHDH",Packet_cons("ABBAH",Packet_cons("ABHBP",Packet_nil))))) ] ) } }
+TXS >>  .....7: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(98,1),LowThroughput(42,27,90)),Packet_cons("LBBFD",Packet_cons("BXBAD",Packet_cons("DDAPH",Packet_cons("APBPA",Packet_cons("DHABH",Packet_nil)))))) ] ) } }
+TXS >>  .....8: OUT: Act { { ( Out, [ Packet_cons("LBBFD",Packet_cons("BXBAD",Packet_cons("DDAPH",Packet_cons("APBPA",Packet_cons("DHABH",Packet_nil))))) ] ) } }
+TXS >>  .....9: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,Delay(60)),Packet_cons("HTABX",Packet_cons("LBHQX",Packet_cons("BHHLD",Packet_cons("BPPHD",Packet_cons("DHPBA",Packet_nil)))))) ] ) } }
+TXS >>  ....10: OUT: Act { { ( Out, [ Packet_cons("HTABX",Packet_cons("LBHQX",Packet_cons("BHHLD",Packet_cons("BPPHD",Packet_cons("DHPBA",Packet_nil))))) ] ) } }
+TXS >>  ....11: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(62,20),LowThroughput(70,75,47)),Packet_cons("WAADE",Packet_cons("IPEPP",Packet_cons("DADDH",Packet_cons("DHBBB",Packet_cons("DBAAB",Packet_nil)))))) ] ) } }
+TXS >>  ....12: OUT: Act { { ( Out, [ Packet_cons("WAADE",Packet_cons("IPEPP",Packet_cons("DADDH",Packet_cons("DHBBB",Packet_cons("DBAAB",Packet_nil))))) ] ) } }
+TXS >>  ....13: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Bitflips(18),Duplication(14)),Packet_cons("HBVRN",Packet_cons("RBODD",Packet_cons("AADHA",Packet_cons("DBBPD",Packet_cons("BDDPH",Packet_nil)))))) ] ) } }
+TXS >>  ....14: OUT: Act { { ( Out, [ Packet_cons("HBVRN",Packet_cons("RBODD",Packet_cons("AADHA",Packet_cons("DBBPD",Packet_cons("BDDPH",Packet_nil))))) ] ) } }
+TXS >>  ....15: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(PacketDrops(8),None),Packet_cons("BYBAC",Packet_cons("TBTTD",Packet_cons("BPIBA",Packet_cons("BPHBP",Packet_cons("PABKD",Packet_nil)))))) ] ) } }
+TXS >>  ....16: OUT: Act { { ( Out, [ Packet_cons("BYBAC",Packet_cons("TBTTD",Packet_cons("BPIBA",Packet_cons("BPHBP",Packet_cons("PABKD",Packet_nil))))) ] ) } }
+TXS >>  ....17: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(39,77),LowThroughput(64,49,54)),Packet_cons("BDAPD",Packet_cons("HCBCP",Packet_cons("DPIBB",Packet_cons("PDPPP",Packet_cons("BABDH",Packet_nil)))))) ] ) } }
+TXS >>  ....18: OUT: Act { { ( Out, [ Packet_cons("BDAPD",Packet_cons("HCBCP",Packet_cons("DPIBB",Packet_cons("PDPPP",Packet_cons("BABDH",Packet_nil))))) ] ) } }
+TXS >>  ....19: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(61,2),LowThroughput(26,49,100)),Packet_cons("UDAIA",Packet_cons("WVBXY",Packet_cons("IDDPP",Packet_cons("TBDHT",Packet_cons("DCJDH",Packet_nil)))))) ] ) } }
+TXS >>  ....20: OUT: Act { { ( Out, [ Packet_cons("UDAIA",Packet_cons("WVBXY",Packet_cons("IDDPP",Packet_cons("TBDHT",Packet_cons("DCJDH",Packet_nil))))) ] ) } }
+TXS >>  ....21: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Duplication(12),Reordering(47,42)),Packet_cons("KCTDJ",Packet_cons("QFDPB",Packet_cons("AAABA",Packet_cons("HPHAH",Packet_cons("AHDAA",Packet_nil)))))) ] ) } }
+TXS >>  ....22: OUT: Act { { ( Out, [ Packet_cons("KCTDJ",Packet_cons("QFDPB",Packet_cons("AAABA",Packet_cons("HPHAH",Packet_cons("AHDAA",Packet_nil))))) ] ) } }
+TXS >>  ....23: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(PacketDrops(35),None),Packet_cons("BHDPU",Packet_cons("JLIEA",Packet_cons("ADAAD",Packet_cons("AAABH",Packet_cons("DHAPA",Packet_nil)))))) ] ) } }
+TXS >>  ....24: OUT: Act { { ( Out, [ Packet_cons("BHDPU",Packet_cons("JLIEA",Packet_cons("ADAAD",Packet_cons("AAABH",Packet_cons("DHAPA",Packet_nil))))) ] ) } }
+TXS >>  ....25: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,PacketDrops(3)),Packet_cons("WAHDI",Packet_cons("DAPCB",Packet_cons("PHADH",Packet_cons("BHAPP",Packet_cons("BDPBD",Packet_nil)))))) ] ) } }
+TXS >>  ....26: OUT: Act { { ( Out, [ Packet_cons("WAHDI",Packet_cons("DAPCB",Packet_cons("PHADH",Packet_cons("BHAPP",Packet_cons("BDPBD",Packet_nil))))) ] ) } }
+TXS >>  ....27: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(45,18),LowThroughput(10,15,36)),Packet_cons("DBDBH",Packet_cons("DPMXH",Packet_cons("THDJH",Packet_cons("HDADH",Packet_cons("PHAAH",Packet_nil)))))) ] ) } }
+TXS >>  ....28: OUT: Act { { ( Out, [ Packet_cons("DBDBH",Packet_cons("DPMXH",Packet_cons("THDJH",Packet_cons("HDADH",Packet_cons("PHAAH",Packet_nil))))) ] ) } }
+TXS >>  ....29: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Delay(72),None),Packet_cons("ZGDSA",Packet_cons("AEAAA",Packet_cons("HAPPA",Packet_cons("PBBBD",Packet_cons("HDPLD",Packet_nil)))))) ] ) } }
+TXS >>  ....30: OUT: Act { { ( Out, [ Packet_cons("ZGDSA",Packet_cons("AEAAA",Packet_cons("HAPPA",Packet_cons("PBBBD",Packet_cons("HDPLD",Packet_nil))))) ] ) } }
+TXS >>  ....31: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(73,75),None),Packet_cons("BAPDA",Packet_cons("CATXB",Packet_cons("HBBBI",Packet_cons("DBDPD",Packet_cons("BHADP",Packet_nil)))))) ] ) } }
+TXS >>  ....32: OUT: Act { { ( Out, [ Packet_cons("BAPDA",Packet_cons("CATXB",Packet_cons("HBBBI",Packet_cons("DBDPD",Packet_cons("BHADP",Packet_nil))))) ] ) } }
+TXS >>  ....33: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Reordering(40,44),Duplication(10)),Packet_cons("TABPM",Packet_cons("DEBBQ",Packet_cons("APABH",Packet_cons("HDDPA",Packet_cons("PHADA",Packet_nil)))))) ] ) } }
+TXS >>  ....34: OUT: Act { { ( Out, [ Packet_cons("TABPM",Packet_cons("DEBBQ",Packet_cons("APABH",Packet_cons("HDDPA",Packet_cons("PHADA",Packet_nil))))) ] ) } }
+TXS >>  ....35: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,Duplication(3)),Packet_cons("XHDDF",Packet_cons("FHLDJ",Packet_cons("ADAHA",Packet_cons("HDBHA",Packet_cons("HHJAB",Packet_nil)))))) ] ) } }
+TXS >>  ....36: OUT: Act { { ( Out, [ Packet_cons("XHDDF",Packet_cons("FHLDJ",Packet_cons("ADAHA",Packet_cons("HDBHA",Packet_cons("HHJAB",Packet_nil))))) ] ) } }
+TXS >>  ....37: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,Duplication(31)),Packet_cons("XAAKB",Packet_cons("BDEBD",Packet_cons("PAHPA",Packet_cons("DPHAD",Packet_cons("HHHDH",Packet_nil)))))) ] ) } }
+TXS >>  ....38: OUT: Act { { ( Out, [ Packet_cons("XAAKB",Packet_cons("BDEBD",Packet_cons("PAHPA",Packet_cons("DPHAD",Packet_cons("HHHDH",Packet_nil))))) ] ) } }
+TXS >>  ....39: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,Reordering(26,45)),Packet_cons("ADBDB",Packet_cons("XBWIB",Packet_cons("PDDHB",Packet_cons("FAHPA",Packet_cons("PKDHA",Packet_nil)))))) ] ) } }
+TXS >>  ....40: OUT: Act { { ( Out, [ Packet_cons("ADBDB",Packet_cons("XBWIB",Packet_cons("PDDHB",Packet_cons("FAHPA",Packet_cons("PKDHA",Packet_nil))))) ] ) } }
+TXS >>  ....41: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(16,33),LowThroughput(97,1,76)),Packet_cons("BPARC",Packet_cons("BDICP",Packet_cons("DAHDC",Packet_cons("HPAPB",Packet_cons("DAAAA",Packet_nil)))))) ] ) } }
+TXS >>  ....42: OUT: Act { { ( Out, [ Packet_cons("BPARC",Packet_cons("BDICP",Packet_cons("DAHDC",Packet_cons("HPAPB",Packet_cons("DAAAA",Packet_nil))))) ] ) } }
+TXS >>  ....43: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,Duplication(10)),Packet_cons("OHDJA",Packet_cons("DACDB",Packet_cons("PABBD",Packet_cons("BILAD",Packet_cons("BBHPP",Packet_nil)))))) ] ) } }
+TXS >>  ....44: OUT: Act { { ( Out, [ Packet_cons("OHDJA",Packet_cons("DACDB",Packet_cons("PABBD",Packet_cons("BILAD",Packet_cons("BBHPP",Packet_nil))))) ] ) } }
+TXS >>  ....45: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,Delay(100)),Packet_cons("PDPQH",Packet_cons("DPATO",Packet_cons("PAHAP",Packet_cons("PHDDB",Packet_cons("PPAPD",Packet_nil)))))) ] ) } }
+TXS >>  ....46: OUT: Act { { ( Out, [ Packet_cons("PDPQH",Packet_cons("DPATO",Packet_cons("PAHAP",Packet_cons("PHDDB",Packet_cons("PPAPD",Packet_nil))))) ] ) } }
+TXS >>  ....47: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Duplication(22),Reordering(40,69)),Packet_cons("BHDSB",Packet_cons("HAFBA",Packet_cons("ABHHD",Packet_cons("PAHDA",Packet_cons("PDPDH",Packet_nil)))))) ] ) } }
+TXS >>  ....48: OUT: Act { { ( Out, [ Packet_cons("BHDSB",Packet_cons("HAFBA",Packet_cons("ABHHD",Packet_cons("PAHDA",Packet_cons("PDPDH",Packet_nil))))) ] ) } }
+TXS >>  ....49: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(LowThroughput(38,7,81),JitteredDelay(93,14)),Packet_cons("AJQDZ",Packet_cons("PAEBA",Packet_cons("HPHDB",Packet_cons("ATBDD",Packet_cons("PDBDB",Packet_nil)))))) ] ) } }
+TXS >>  ....50: OUT: Act { { ( Out, [ Packet_cons("AJQDZ",Packet_cons("PAEBA",Packet_cons("HPHDB",Packet_cons("ATBDD",Packet_cons("PDBDB",Packet_nil))))) ] ) } }
+TXS >>  ....51: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(20,53),None),Packet_cons("ABCFA",Packet_cons("ZAOAN",Packet_cons("HHACB",Packet_cons("ACCDB",Packet_cons("PAHDA",Packet_nil)))))) ] ) } }
+TXS >>  ....52: OUT: Act { { ( Out, [ Packet_cons("ABCFA",Packet_cons("ZAOAN",Packet_cons("HHACB",Packet_cons("ACCDB",Packet_cons("PAHDA",Packet_nil))))) ] ) } }
+TXS >>  ....53: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,Bitflips(26)),Packet_cons("JAPOE",Packet_cons("CUYPB",Packet_cons("AHBHH",Packet_cons("HALHB",Packet_cons("DPBAD",Packet_nil)))))) ] ) } }
+TXS >>  ....54: OUT: Act { { ( Out, [ Packet_cons("JAPOE",Packet_cons("CUYPB",Packet_cons("AHBHH",Packet_cons("HALHB",Packet_cons("DPBAD",Packet_nil))))) ] ) } }
+TXS >>  ....55: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(3,49),LowThroughput(59,2,88)),Packet_cons("BRVHR",Packet_cons("BBRII",Packet_cons("AAHPP",Packet_cons("APABD",Packet_cons("DDBDP",Packet_nil)))))) ] ) } }
+TXS >>  ....56: OUT: Act { { ( Out, [ Packet_cons("BRVHR",Packet_cons("BBRII",Packet_cons("AAHPP",Packet_cons("APABD",Packet_cons("DDBDP",Packet_nil))))) ] ) } }
+TXS >>  ....57: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,Reordering(53,10)),Packet_cons("NPDPA",Packet_cons("BDPPH",Packet_cons("PDPJA",Packet_cons("PPHPP",Packet_cons("HBHBD",Packet_nil)))))) ] ) } }
+TXS >>  ....58: OUT: Act { { ( Out, [ Packet_cons("NPDPA",Packet_cons("BDPPH",Packet_cons("PDPJA",Packet_cons("PPHPP",Packet_cons("HBHBD",Packet_nil))))) ] ) } }
+TXS >>  ....59: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(30,39),None),Packet_cons("BAAAH",Packet_cons("FQLQH",Packet_cons("HDHHH",Packet_cons("PHADA",Packet_cons("BAHDH",Packet_nil)))))) ] ) } }
+TXS >>  ....60: OUT: Act { { ( Out, [ Packet_cons("BAAAH",Packet_cons("FQLQH",Packet_cons("HDHHH",Packet_cons("PHADA",Packet_cons("BAHDH",Packet_nil))))) ] ) } }
+TXS >>  ....61: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,Delay(43)),Packet_cons("HHHAX",Packet_cons("BBBDA",Packet_cons("DAPAP",Packet_cons("PHBAH",Packet_cons("ABDBA",Packet_nil)))))) ] ) } }
+TXS >>  ....62: OUT: Act { { ( Out, [ Packet_cons("HHHAX",Packet_cons("BBBDA",Packet_cons("DAPAP",Packet_cons("PHBAH",Packet_cons("ABDBA",Packet_nil))))) ] ) } }
+TXS >>  ....63: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Duplication(38),None),Packet_cons("CHHBB",Packet_cons("HBBAH",Packet_cons("BDAPA",Packet_cons("BPEDP",Packet_cons("HDAHP",Packet_nil)))))) ] ) } }
+TXS >>  ....64: OUT: Act { { ( Out, [ Packet_cons("CHHBB",Packet_cons("HBBAH",Packet_cons("BDAPA",Packet_cons("BPEDP",Packet_cons("HDAHP",Packet_nil))))) ] ) } }
+TXS >>  ....65: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,Duplication(6)),Packet_cons("AHHDD",Packet_cons("RBBAH",Packet_cons("BHAAA",Packet_cons("HALBD",Packet_cons("PPBJA",Packet_nil)))))) ] ) } }
+TXS >>  ....66: OUT: Act { { ( Out, [ Packet_cons("AHHDD",Packet_cons("RBBAH",Packet_cons("BHAAA",Packet_cons("HALBD",Packet_cons("PPBJA",Packet_nil))))) ] ) } }
+TXS >>  ....67: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(LowThroughput(70,36,74),JitteredDelay(89,19)),Packet_cons("PCAAP",Packet_cons("AXSCP",Packet_cons("BBBBD",Packet_cons("BBABD",Packet_cons("BPDAB",Packet_nil)))))) ] ) } }
+TXS >>  ....68: OUT: Act { { ( Out, [ Packet_cons("PCAAP",Packet_cons("AXSCP",Packet_cons("BBBBD",Packet_cons("BBABD",Packet_cons("BPDAB",Packet_nil))))) ] ) } }
+TXS >>  ....69: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(35,84),LowThroughput(47,28,81)),Packet_cons("BPCFC",Packet_cons("HPDHA",Packet_cons("HPDBD",Packet_cons("DPDPP",Packet_cons("HPABP",Packet_nil)))))) ] ) } }
+TXS >>  ....70: OUT: Act { { ( Out, [ Packet_cons("BPCFC",Packet_cons("HPDHA",Packet_cons("HPDBD",Packet_cons("DPDPP",Packet_cons("HPABP",Packet_nil))))) ] ) } }
+TXS >>  ....71: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,LowThroughput(28,72,34)),Packet_cons("SEIHS",Packet_cons("PQTBU",Packet_cons("DHLXD",Packet_cons("DDPPD",Packet_cons("DDHPH",Packet_nil)))))) ] ) } }
+TXS >>  ....72: OUT: Act { { ( Out, [ Packet_cons("SEIHS",Packet_cons("PQTBU",Packet_cons("DHLXD",Packet_cons("DDPPD",Packet_cons("DDHPH",Packet_nil))))) ] ) } }
+TXS >>  ....73: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Bitflips(28),Duplication(1)),Packet_cons("AAHGD",Packet_cons("DHRBA",Packet_cons("PHBBA",Packet_cons("GPHDD",Packet_cons("DDCAA",Packet_nil)))))) ] ) } }
+TXS >>  ....74: OUT: Act { { ( Out, [ Packet_cons("AAHGD",Packet_cons("DHRBA",Packet_cons("PHBBA",Packet_cons("GPHDD",Packet_cons("DDCAA",Packet_nil))))) ] ) } }
+TXS >>  ....75: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Duplication(47),Bitflips(18)),Packet_cons("IIFOA",Packet_cons("HVBEV",Packet_cons("HJBED",Packet_cons("PAAHA",Packet_cons("DPBHD",Packet_nil)))))) ] ) } }
+TXS >>  ....76: OUT: Act { { ( Out, [ Packet_cons("IIFOA",Packet_cons("HVBEV",Packet_cons("HJBED",Packet_cons("PAAHA",Packet_cons("DPBHD",Packet_nil))))) ] ) } }
+TXS >>  ....77: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(48,6),LowThroughput(13,40,50)),Packet_cons("HOACC",Packet_cons("ACIBF",Packet_cons("DPBDD",Packet_cons("TBPHB",Packet_cons("BHABA",Packet_nil)))))) ] ) } }
+TXS >>  ....78: OUT: Act { { ( Out, [ Packet_cons("HOACC",Packet_cons("ACIBF",Packet_cons("DPBDD",Packet_cons("TBPHB",Packet_cons("BHABA",Packet_nil))))) ] ) } }
+TXS >>  ....79: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Delay(49),None),Packet_cons("QRADZ",Packet_cons("CDABH",Packet_cons("DHBHH",Packet_cons("DHHDA",Packet_cons("HABBP",Packet_nil)))))) ] ) } }
+TXS >>  ....80: OUT: Act { { ( Out, [ Packet_cons("QRADZ",Packet_cons("CDABH",Packet_cons("DHBHH",Packet_cons("DHHDA",Packet_cons("HABBP",Packet_nil))))) ] ) } }
+TXS >>  ....81: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Reordering(26,8),None),Packet_cons("ABAAP",Packet_cons("RASCX",Packet_cons("AHDHA",Packet_cons("PABAP",Packet_cons("AAPDD",Packet_nil)))))) ] ) } }
+TXS >>  ....82: OUT: Act { { ( Out, [ Packet_cons("ABAAP",Packet_cons("RASCX",Packet_cons("AHDHA",Packet_cons("PABAP",Packet_cons("AAPDD",Packet_nil))))) ] ) } }
+TXS >>  ....83: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(PacketDrops(30),LowThroughput(29,75,6)),Packet_cons("RHDPD",Packet_cons("HBAJB",Packet_cons("LPPPB",Packet_cons("BAAHB",Packet_cons("PDPDG",Packet_nil)))))) ] ) } }
+TXS >>  ....84: OUT: Act { { ( Out, [ Packet_cons("RHDPD",Packet_cons("HBAJB",Packet_cons("LPPPB",Packet_cons("BAAHB",Packet_cons("PDPDG",Packet_nil))))) ] ) } }
+TXS >>  ....85: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,LowThroughput(8,98,93)),Packet_cons("PCBAG",Packet_cons("BFEDH",Packet_cons("DPHBA",Packet_cons("BBCBA",Packet_cons("AAAAP",Packet_nil)))))) ] ) } }
+TXS >>  ....86: OUT: Act { { ( Out, [ Packet_cons("PCBAG",Packet_cons("BFEDH",Packet_cons("DPHBA",Packet_cons("BBCBA",Packet_cons("AAAAP",Packet_nil))))) ] ) } }
+TXS >>  ....87: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Duplication(3),Reordering(19,48)),Packet_cons("PHHPH",Packet_cons("BABDQ",Packet_cons("HDBAB",Packet_cons("PAHDD",Packet_cons("BAPPH",Packet_nil)))))) ] ) } }
+TXS >>  ....88: OUT: Act { { ( Out, [ Packet_cons("PHHPH",Packet_cons("BABDQ",Packet_cons("HDBAB",Packet_cons("PAHDD",Packet_cons("BAPPH",Packet_nil))))) ] ) } }
+TXS >>  ....89: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(None,Duplication(28)),Packet_cons("MIDBH",Packet_cons("PABJD",Packet_cons("PPDDD",Packet_cons("HABHA",Packet_cons("APHBB",Packet_nil)))))) ] ) } }
+TXS >>  ....90: OUT: Act { { ( Out, [ Packet_cons("MIDBH",Packet_cons("PABJD",Packet_cons("PPDDD",Packet_cons("HABHA",Packet_cons("APHBB",Packet_nil))))) ] ) } }
+TXS >>  ....91: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(56,42),LowThroughput(36,25,60)),Packet_cons("VFHDV",Packet_cons("FADHB",Packet_cons("BHPPB",Packet_cons("HBBHA",Packet_cons("ADDDH",Packet_nil)))))) ] ) } }
+TXS >>  ....92: OUT: Act { { ( Out, [ Packet_cons("VFHDV",Packet_cons("FADHB",Packet_cons("BHPPB",Packet_cons("HBBHA",Packet_cons("ADDDH",Packet_nil))))) ] ) } }
+TXS >>  ....93: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(LowThroughput(6,94,28),None),Packet_cons("ABRAJ",Packet_cons("ACPBB",Packet_cons("HPBAB",Packet_cons("DPDHA",Packet_cons("HADHD",Packet_nil)))))) ] ) } }
+TXS >>  ....94: OUT: Act { { ( Out, [ Packet_cons("ABRAJ",Packet_cons("ACPBB",Packet_cons("HPBAB",Packet_cons("DPDHA",Packet_cons("HADHD",Packet_nil))))) ] ) } }
+TXS >>  ....95: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Reordering(34,42),Duplication(2)),Packet_cons("DCAFZ",Packet_cons("FABBD",Packet_cons("PABBF",Packet_cons("DAPAH",Packet_cons("PAPPH",Packet_nil)))))) ] ) } }
+TXS >>  ....96: OUT: Act { { ( Out, [ Packet_cons("DCAFZ",Packet_cons("FABBD",Packet_cons("PABBF",Packet_cons("DAPAH",Packet_cons("PAPPH",Packet_nil))))) ] ) } }
+TXS >>  ....97: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(JitteredDelay(53,4),LowThroughput(42,87,26)),Packet_cons("ZHDAH",Packet_cons("DADEA",Packet_cons("PABPH",Packet_cons("HHPDP",Packet_cons("PHABD",Packet_nil)))))) ] ) } }
+TXS >>  ....98: OUT: Act { { ( Out, [ Packet_cons("ZHDAH",Packet_cons("DADEA",Packet_cons("PABPH",Packet_cons("HHPDP",Packet_cons("PHABD",Packet_nil))))) ] ) } }
+TXS >>  ....99: IN: Act { { ( In, [ PacketListAndTampering(TamperingPair(Bitflips(21),Duplication(30)),Packet_cons("EJDDC",Packet_cons("QKAJA",Packet_cons("DBPAB",Packet_cons("DBADH",Packet_cons("BIDBP",Packet_nil)))))) ] ) } }
+TXS >>  ...100: OUT: Act { { ( Out, [ Packet_cons("EJDDC",Packet_cons("QKAJA",Packet_cons("DBPAB",Packet_cons("DBADH",Packet_cons("BIDBP",Packet_nil))))) ] ) } }
+TXS >>  PASS
