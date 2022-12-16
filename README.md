@@ -7,7 +7,7 @@
 1. Run TorXakis with the TCP definition: `torxakis.exe .\torxakis\TCP.txs`
 2. Start the SUT in another terminal: `python .\src\socketcomms.py 7890`
 3. In the TorXakis REPL, run the following commands:
-   - `param_Sut_deltaTime 10000000`
+   - `param_Sut_deltaTime 10000000` (or however long you want the tester to wait for the return packets)
    - `tester TCP Sut`
    - `test 100` (or however many tests you want to run)
 
